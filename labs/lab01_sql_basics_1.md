@@ -1,0 +1,40 @@
+# Laboratorium 1: Podstawy SQL - DDL i DML (część 1)
+
+## Cel laboratorium
+Zapoznanie z podstawami języka SQL w zakresie definiowania struktury danych (DDL) oraz manipulacji danymi (DML).
+
+## Narzędzia
+- SQLite
+- DB Browser for SQLite
+
+## Zadanie 1: Tworzenie bazy danych i tabel (DDL)
+Stwórz bazę danych `sklep.db`, a w niej tabelę `Produkty` o następującej strukturze:
+- `id`: klucz główny, autoinkrementacja
+- `nazwa`: tekst, nie może być puste
+- `cena`: liczba zmiennoprzecinkowa
+- `ilosc`: liczba całkowita
+
+```sql
+CREATE TABLE Produkty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nazwa TEXT NOT NULL,
+    cena REAL,
+    ilosc INTEGER
+);
+```
+
+## Zadanie 2: Dodawanie danych (DML - INSERT)
+Wprowadź do tabeli 5 dowolnych produktów.
+
+```sql
+INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Chleb', 4.50, 10);
+INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Mleko', 3.20, 20);
+-- Dodaj pozostałe 3 produkty
+```
+
+## Zadanie 3: Modyfikacja i usuwanie danych (DML - UPDATE, DELETE)
+1. Zmień cenę produktu o id=1.
+2. Usuń produkt o nazwie 'Mleko'.
+
+## Ćwiczenie do wykonania
+Stwórz tabelę `Klienci` (id, imie, nazwisko, email) i dodaj do niej 3 rekordy.
