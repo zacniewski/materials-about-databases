@@ -20,3 +20,7 @@ SELECT * FROM WidokZamowien;
 
 ## Ćwiczenie
 Stwórz widok, który pokazuje tylko produkty o niskim stanie magazynowym (np. `ilosc < 5`).
+
+## Ćwiczenia dodatkowe
+1. Używając `EXISTS`, znajdź klientów, którzy zamówili przynajmniej jeden produkt z kategorii "Napoje".
+2. Utwórz widok agregujący `SprzedazNaKlienta`, który zwraca `id_klienta`, `liczba_zamowien` oraz `laczna_wartosc` (suma wartości pozycji zamówień) i zaprezentuj zapytanie odczytujące top 5 klientów po wartości.

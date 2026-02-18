@@ -24,3 +24,7 @@ JOIN Zamowienia ON Klienci.id = Zamowienia.id_klienta;
 
 ## Ćwiczenie
 Wyświetl liczbę produktów w poszczególnych kategoriach (dodaj kolumnę `kategoria` do tabeli `Produkty`).
+
+## Ćwiczenia dodatkowe
+1. Wyświetl listę klientów, którzy nie złożyli żadnego zamówienia (użyj `LEFT JOIN` i `WHERE Zamowienia.id_zamowienia IS NULL`).
+2. Wyświetl kategorie produktów wraz ze średnią ceną, ale tylko te kategorie, w których jest co najmniej 3 produktów (`GROUP BY`, `HAVING COUNT(*) >= 3`).

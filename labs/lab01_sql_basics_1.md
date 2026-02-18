@@ -7,6 +7,21 @@ Zapoznanie z podstawami języka SQL w zakresie definiowania struktury danych (DD
 - SQLite
 - DB Browser for SQLite
 
+## Krótka instrukcja pracy z Markdownem
+- Nagłówki: używaj `#`, `##`, `###` (więcej `#` = niższy poziom)
+- Pogrubienie: `**tekst**`, kursywa: `*tekst*`
+- Listy:
+  - wypunktowanie: `-` lub `*`
+  - numerowanie: `1.`, `2.`
+- Kod w linii: `` `fragment` ``, blok kodu:
+```md
+```sql
+SELECT * FROM Produkty;
+```
+```
+- Link: `[tekst](https://adres)`
+- Obraz: `![alt](sciezka/do/obrazu.png)`
+
 ## Zadanie 1: Tworzenie bazy danych i tabel (DDL)
 Stwórz bazę danych `sklep.db`, a w niej tabelę `Produkty` o następującej strukturze:
 - `id`: klucz główny, autoinkrementacja
@@ -38,3 +53,7 @@ INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Mleko', 3.20, 20);
 
 ## Ćwiczenie do wykonania
 Stwórz tabelę `Klienci` (id, imie, nazwisko, email) i dodaj do niej 3 rekordy.
+
+## Ćwiczenia dodatkowe
+1. Dodaj do tabeli `Produkty` kolumnę `kategoria` (TEXT), uzupełnij ją dla istniejących rekordów i przygotuj zapytanie zwracające liczbę produktów w każdej kategorii.
+2. Dodaj ograniczenie `CHECK` na kolumnie `ilosc`, aby wartość nie mogła być ujemna. Przetestuj działanie poprzez próbę wstawienia błędnego rekordu.

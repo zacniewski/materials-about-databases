@@ -30,3 +30,7 @@ do postaci znormalizowanej (3NF).
 ## Ćwiczenie
 Zaprojektuj bazę danych dla biblioteki (książki, autorzy, wypożyczenia) i określ klucze obce.
 Doprowadź projekt do 3 postaci normalnej.
+
+## Ćwiczenia dodatkowe
+1. Wskaż przykładowe zależności funkcyjne w tabeli `Pozycje_Zamowienia` oraz zaproponuj ewentualne dodatkowe więzy (np. `CHECK(ilosc > 0)`).
+2. Przygotuj skrypty DDL tworzące wszystkie tabele po normalizacji (3NF) wraz z kluczami obcymi i ograniczeniami integralności (NOT NULL, UNIQUE, CHECK).

@@ -33,3 +33,7 @@ Stwórz wyzwalacz `BEFORE INSERT`, który zablokuje dodanie produktu z ujemną i
 
 ## Ćwiczenie
 Stwórz wyzwalacz, który przy usuwaniu klienta automatycznie usuwa wszystkie jego zamówienia (kaskadowe usuwanie realizowane przez trigger).
+
+## Ćwiczenia dodatkowe
+1. Stwórz wyzwalacz `BEFORE UPDATE` na tabeli `Produkty`, który zablokuje ustawienie ujemnej ceny lub ilości (użyj `RAISE(ABORT, 'komunikat')`).
+2. Zademonstruj `INSTEAD OF` trigger na widoku: utwórz widok łączący `Klienci` i `Zamowienia`, a następnie wyzwalacz `INSTEAD OF INSERT` wstawiający dane do tabel bazowych.

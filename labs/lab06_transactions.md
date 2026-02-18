@@ -38,3 +38,7 @@ COMMIT;
 
 ## Ćwiczenie
 Spróbuj wykonać transakcję, która kończy się błędem (np. naruszenie więzu CHECK na ujemne saldo) i wycofaj zmiany.
+
+## Ćwiczenia dodatkowe
+1. Zademonstruj użycie `SAVEPOINT`, `RELEASE` i `ROLLBACK TO` na przykładzie operacji częściowo udanych w ramach większej transakcji.
+2. Porównaj `BEGIN DEFERRED`, `BEGIN IMMEDIATE` i `BEGIN EXCLUSIVE` w SQLite: przygotuj krótkie demo (nawet jednosesyjne), które pokazuje różnice w blokadach podczas wykonywania `UPDATE` na tej samej tabeli.

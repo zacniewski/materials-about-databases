@@ -17,3 +17,7 @@ SELECT nazwa FROM Produkty;
 
 ## Ćwiczenie
 Znajdź wszystkich klientów, których nazwisko zaczyna się na literę 'K' (użyj `LIKE`).
+
+## Ćwiczenia dodatkowe
+1. Użyj `COALESCE`, aby zastąpić brakujące ceny (`NULL`) wartością 0 i oblicz średnią cenę po zastąpieniu.
+2. Wyświetl zamówienia w formacie `YYYY-MM` (użyj `strftime('%Y-%m', data)`) i zlicz liczbę zamówień na miesiąc. Porównaj wyniki dla `UNION` i `UNION ALL` przy łączeniu danych z dwóch tabel.

@@ -35,3 +35,7 @@ def zloz_zamowienie(produkt_id, ilosc):
 
 ## Ćwiczenie
 Napisz skrypt w Pythonie, który oblicza sumaryczną wartość magazynu (cena * ilosc) dla każdej kategorii produktów, korzystając z zarejestrowanej funkcji Pythona.
+
+## Ćwiczenia dodatkowe
+1. Zarejestruj własną funkcję agregującą w Pythonie (np. `SUMA_CEN`) i wykorzystaj ją w zapytaniu do policzenia łącznej wartości zamówienia.
+2. Zaimplementuj funkcję `waliduj_email(email)` i zarejestruj ją w SQLite. Przygotuj zapytanie, które wybierze tylko poprawne adresy e‑mail z tabeli `Klienci`.
