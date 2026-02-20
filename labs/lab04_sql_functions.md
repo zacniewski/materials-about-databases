@@ -3,6 +3,35 @@
 ## Cel laboratorium
 Praca z wbudowanymi funkcjami (tekstowe, daty) oraz operatory zbiorowe (UNION, INTERSECT, EXCEPT).
 
+## Podstawy teoretyczne
+
+### Funkcje wbudowane
+Bazy danych oferują zestaw gotowych funkcji do manipulacji danymi:
+- **Tekstowe**: `UPPER()`, `LOWER()`, `LENGTH()`, `SUBSTR()`, `REPLACE()`.
+- **Liczbowe**: `ROUND()`, `ABS()`, `COALESCE()` (zwraca pierwszą niepustą wartość).
+- **Daty i czasu**: `DATE()`, `TIME()`, `DATETIME()`, `STRFTIME()`.
+
+### Operacje zbiorowe
+Pozwalają na łączenie wyników dwóch lub więcej zapytań `SELECT`. Zapytania muszą mieć tę samą liczbę kolumn o zgodnych typach danych.
+- `UNION` – suma zbiorów (usuwa duplikaty).
+- `UNION ALL` – suma zbiorów (zachowuje duplikaty).
+- `INTERSECT` – część wspólna zbiorów.
+- `EXCEPT` – różnica zbiorów (rekordy z pierwszego zapytania, których nie ma w drugim).
+
+### Diagram operacji zbiorowych (Mermaid)
+```mermaid
+graph LR
+    subgraph UNION
+    A1((Zbiór A)) --- B1((Zbiór B))
+    end
+    subgraph INTERSECT
+    A2((A)) -- "A ∩ B" --- B2((B))
+    end
+    subgraph EXCEPT
+    A3((A)) -- "A - B" --- B3((B))
+    end
+```
+
 ## Zadania
 1. **Funkcje tekstowe**: Zamień wszystkie nazwiska klientów na wielkie litery.
 2. **Funkcje dat**: Wyciągnij rok z daty zamówienia.

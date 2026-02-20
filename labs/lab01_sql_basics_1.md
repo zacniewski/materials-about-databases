@@ -3,6 +3,39 @@
 ## Cel laboratorium
 Zapoznanie z podstawami języka SQL w zakresie definiowania struktury danych (DDL) oraz manipulacji danymi (DML).
 
+## Podstawy teoretyczne
+
+Język SQL (Structured Query Language) dzieli się na kilka podjęzyków, z których najważniejsze to:
+
+### DDL (Data Definition Language)
+Służy do definiowania struktury bazy danych (tworzenie, modyfikacja, usuwanie tabel i innych obiektów).
+- `CREATE TABLE` – tworzy nową tabelę.
+- `ALTER TABLE` – modyfikuje strukturę istniejącej tabeli.
+- `DROP TABLE` – usuwa tabelę.
+
+### DML (Data Manipulation Language)
+Służy do operowania na danych wewnątrz tabel.
+- `INSERT INTO` – dodaje nowe rekordy.
+- `UPDATE` – modyfikuje istniejące dane.
+- `DELETE` – usuwa rekordy.
+
+### Przykład relacji i struktury (Mermaid)
+```mermaid
+erDiagram
+    PRODUKTY {
+        int id PK
+        string nazwa
+        float cena
+        int ilosc
+    }
+    KLIENCI {
+        int id PK
+        string imie
+        string nazwisko
+        string email
+    }
+```
+
 ## Narzędzia
 - SQLite
 - DB Browser for SQLite

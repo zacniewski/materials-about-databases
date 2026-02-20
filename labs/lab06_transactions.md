@@ -3,11 +3,26 @@
 ## Cel laboratorium
 Zrozumienie koncepcji transakcji (ACID) oraz ich praktyczne zastosowanie w SQLite.
 
-## Teoria: Właściwości ACID
-1. **Atomicity (Atomowość)** - wszystko albo nic.
-2. **Consistency (Spójność)** - przejście z jednego stanu poprawnego do drugiego.
-3. **Isolation (Izolacja)** - transakcje nie wpływają na siebie nawzajem.
-4. **Durability (Trwałość)** - po zatwierdzeniu dane są bezpieczne.
+## Podstawy teoretyczne
+
+Transakcja to zbiór operacji na bazie danych, które stanowią jedną logiczną całość. Aby transakcja była poprawna, musi spełniać zestaw właściwości zwany **ACID**:
+
+1. **Atomicity (Atomowość)** – transakcja jest wykonywana w całości lub wcale ("wszystko albo nic"). Jeśli którakolwiek operacja zawiedzie, cała transakcja jest wycofywana.
+2. **Consistency (Spójność)** – po zakończeniu transakcji baza danych musi pozostać w stanie spójnym (nie mogą zostać naruszone żadne więzy integralności).
+3. **Isolation (Izolacja)** – transakcje wykonywane równocześnie nie powinny na siebie wpływać. Wynik jednej transakcji powinien być niewidoczny dla innych, dopóki nie zostanie ona zatwierdzona.
+4. **Durability (Trwałość)** – po zatwierdzeniu transakcji (`COMMIT`), zmiany są trwale zapisane w bazie (np. na dysku) i nie zostaną utracone nawet w przypadku awarii systemu.
+
+### Cykl życia transakcji (Mermaid)
+```mermaid
+stateDiagram-v2
+    [*] --> Aktywna
+    Aktywna --> CzęściowoZatwierdzona : Ostatnia operacja
+    CzęściowoZatwierdzona --> Zatwierdzona : COMMIT
+    Aktywna --> Przerwana : Błąd / ROLLBACK
+    CzęściowoZatwierdzona --> Przerwana : Błąd zapisu
+    Przerwana --> [*]
+    Zatwierdzona --> [*]
+```
 
 ## Zadanie: Przelew bankowy
 Wyobraźmy sobie tabelę `Konta`:

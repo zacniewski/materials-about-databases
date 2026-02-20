@@ -3,8 +3,23 @@
 ## Cel laboratorium
 Implementacja logiki biznesowej z wykorzystaniem języka Python jako proceduralnego rozszerzenia dla SQLite.
 
-## Dlaczego Python?
-SQLite nie posiada wbudowanego języka proceduralnego (jak PL/SQL w Oracle). Możemy jednak rejestrować funkcje Pythona i używać ich bezpośrednio w zapytaniach SQL.
+## Podstawy teoretyczne
+
+### Języki proceduralne w bazach danych
+Większość profesjonalnych systemów (PostgreSQL, Oracle, SQL Server) posiada własne języki proceduralne (PL/pgSQL, PL/SQL, T-SQL), które pozwalają na pisanie skomplikowanej logiki bezpośrednio wewnątrz bazy.
+
+**SQLite** jest lekki i nie posiada wbudowanego języka proceduralnego. Jednak dzięki bibliotece `sqlite3` w Pythonie, możemy:
+1. **Rejestrować własne funkcje skalarne** (`create_function`) – do użycia w zapytaniach SQL.
+2. **Rejestrować funkcje agregujące** (`create_aggregate`) – do obliczeń na zbiorach danych.
+3. **Sterować transakcjami** – za pomocą metod `commit()` i `rollback()`.
+
+### Integracja Python <-> SQLite (Mermaid)
+```mermaid
+graph LR
+    P[Skrypt Python] -- "1. Rejestracja funkcji" --> DB[Baza SQLite]
+    DB -- "2. Wywołanie funkcji w SQL" --> P
+    P -- "3. Zwrócenie wyniku do SQL" --> DB
+```
 
 ## Zadanie: Rejestracja własnej funkcji
 ```python

@@ -3,6 +3,28 @@
 ## Cel laboratorium
 Zrozumienie więzów integralności oraz zasad projektowania baz danych (1NF, 2NF, 3NF).
 
+## Podstawy teoretyczne
+
+### Integralność danych
+Zbiór reguł zapewniających poprawność i spójność danych:
+- **Encji**: Klucz główny (`PRIMARY KEY`) musi być unikalny i nie może być nullem.
+- **Referencyjna**: Klucz obcy (`FOREIGN KEY`) musi odnosić się do istniejącego klucza w innej tabeli.
+- **Domenowa**: Wartości w kolumnie muszą spełniać określone kryteria (`CHECK`, `NOT NULL`, typ danych).
+
+### Normalizacja
+Proces organizowania danych w bazie w celu uniknięcia redundancji (powtarzania się danych) oraz anomalii (problemów przy dodawaniu, usuwaniu i modyfikacji).
+1. **1NF**: Wartości w kolumnach muszą być atomowe (niepodzielne).
+2. **2NF**: Musi spełniać 1NF i każda kolumna niebędąca kluczem musi zależeć od całego klucza głównego.
+3. **3NF**: Musi spełniać 2NF i żadna kolumna niebędąca kluczem nie może zależeć od innej kolumny niebędącej kluczem (brak zależności przechodnich).
+
+### Proces Normalizacji (Mermaid)
+```mermaid
+graph TD
+    UN[Tabela Nieznormalizowana] -->|Atomowość| NF1[1 Postać Normalna]
+    NF1 -->|Brak częściowych zależności| NF2[2 Postać Normalna]
+    NF2 -->|Brak zależności przechodnich| NF3[3 Postać Normalna]
+```
+
 ## Integralność danych
 SQLite wspiera:
 - `NOT NULL`
