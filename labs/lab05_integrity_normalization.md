@@ -36,6 +36,16 @@ SQLite wspiera:
 ### Przykład CHECK
 ```sql
 ALTER TABLE Produkty ADD COLUMN status TEXT CHECK(status IN ('dostępny', 'brak'));
+
+-- Próba wstawienia niepoprawnej wartości
+INSERT INTO Produkty (nazwa, cena, ilosc, status) VALUES ('Test', 10, 5, 'niedostępny');
+```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+Baza danych powinna zwrócić błąd naruszenia ograniczenia:
+**Wynik:**
+```text
+Error: CHECK constraint failed: status IN ('dostępny', 'brak')
 ```
 
 ## Normalizacja

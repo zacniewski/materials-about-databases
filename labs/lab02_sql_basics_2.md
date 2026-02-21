@@ -50,9 +50,21 @@ CREATE TABLE Zamowienia (
     FOREIGN KEY(id_klienta) REFERENCES Klienci(id)
 );
 
+-- Przykładowe dane
+INSERT INTO Zamowienia (id_klienta, data) VALUES (1, '2023-10-01');
+
 SELECT Klienci.imie, Klienci.nazwisko, Zamowienia.data
 FROM Klienci
 JOIN Zamowienia ON Klienci.id = Zamowienia.id_klienta;
+```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+Jeśli w tabeli `Klienci` masz osobę o id=1 (np. Jan Kowalski), wynik zapytania będzie wyglądał następująco:
+**Wynik:**
+```text
+imie | nazwisko | data
+-----|----------|-----------
+Jan  | Kowalski | 2023-10-01
 ```
 
 ## Ćwiczenie

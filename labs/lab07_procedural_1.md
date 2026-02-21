@@ -33,10 +33,21 @@ conn = sqlite3.connect('sklep.db')
 conn.create_function("oblicz_vat", 1, podatek_vat)
 
 cursor = conn.cursor()
+# Przygotowanie danych testowych
+cursor.execute("CREATE TABLE IF NOT EXISTS Produkty (nazwa TEXT, cena REAL)")
+cursor.execute("INSERT INTO Produkty VALUES ('Chleb', 4.50)")
+
 for row in cursor.execute("SELECT nazwa, cena, oblicz_vat(cena) FROM Produkty"):
     print(row)
 
 conn.close()
+```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+Skrypt powinien wypisać krotkę z danymi produktu i obliczonym podatkiem VAT:
+**Wynik:**
+```text
+('Chleb', 4.5, 1.04)
 ```
 
 ## Zadanie: Procedura składowana (Emulacja)

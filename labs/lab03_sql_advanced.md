@@ -43,6 +43,15 @@ JOIN Klienci k ON z.id_klienta = k.id;
 SELECT * FROM WidokZamowien;
 ```
 
+### Przykładowy wynik (Oczekiwany rezultat)
+Dla przykładowego zamówienia klienta o nazwisku Kowalski:
+**Wynik:**
+```text
+id_zamowienia | nazwisko | data
+--------------|----------|-----------
+1             | Kowalski | 2023-10-01
+```
+
 ## Ćwiczenie
 Stwórz widok, który pokazuje tylko produkty o niskim stanie magazynowym (np. `ilosc < 5`).
 

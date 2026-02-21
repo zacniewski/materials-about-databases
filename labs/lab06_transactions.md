@@ -44,12 +44,22 @@ BEGIN TRANSACTION;
 UPDATE Konta SET saldo = saldo - 100 WHERE id_konta = 1;
 UPDATE Konta SET saldo = saldo + 100 WHERE id_konta = 2;
 
--- Jeśli wszystko ok:
-COMMIT;
+-- Sprawdzenie stanu przed zatwierdzeniem
+SELECT * FROM Konta;
 
--- Jeśli wystąpił błąd:
--- ROLLBACK;
+COMMIT;
 ```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+Jeśli przed transakcją Konta miały salda: 1 -> 1000, 2 -> 500.
+**Wynik po UPDATE (wewnątrz transakcji):**
+```text
+id_konta | wlasciciel    | saldo
+---------|---------------|-------
+1        | Jan Kowalski  | 900
+2        | Anna Nowak    | 600
+```
+Po wykonaniu `COMMIT` zmiany stają się trwałe.
 
 ## Ćwiczenie
 Spróbuj wykonać transakcję, która kończy się błędem (np. naruszenie więzu CHECK na ujemne saldo) i wycofaj zmiany.

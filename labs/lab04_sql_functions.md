@@ -44,6 +44,17 @@ UNION
 SELECT nazwa FROM Produkty;
 ```
 
+### Przykładowy wynik (Oczekiwany rezultat)
+Jeśli w tabeli `Klienci` masz "Jan", a w `Produkty` masz "Chleb":
+**Wynik:**
+```text
+imie
+-----
+Chleb
+Jan
+```
+*(Wyniki są posortowane alfabetycznie przy użyciu UNION)*
+
 ## Ćwiczenie
 Znajdź wszystkich klientów, których nazwisko zaczyna się na literę 'K' (użyj `LIKE`).
 

@@ -49,6 +49,19 @@ BEGIN
     INSERT INTO HistoriaCen (id_produktu, stara_cena, nowa_cena)
     VALUES (OLD.id, OLD.cena, NEW.cena);
 END;
+
+-- Testowanie wyzwalacza
+UPDATE Produkty SET cena = 5.00 WHERE id = 1;
+SELECT * FROM HistoriaCen;
+```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+W tabeli `HistoriaCen` powinien pojawić się wpis o zmianie:
+**Wynik:**
+```text
+id_historia | id_produktu | stara_cena | nowa_cena | data_zmiany
+------------|-------------|------------|-----------|--------------------
+1           | 1           | 4.5        | 5.0       | 2023-10-21 12:00:00
 ```
 
 ## Zadanie: Walidacja danych przez wyzwalacz

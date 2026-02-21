@@ -71,6 +71,16 @@ CREATE TABLE Produkty (
 );
 ```
 
+### Przykładowy wynik (Oczekiwany rezultat)
+Po wykonaniu polecenia `CREATE TABLE`, tabela zostanie utworzona. Możesz to sprawdzić poleceniem:
+```sql
+.tables
+```
+**Wynik:**
+```text
+Produkty
+```
+
 ## Zadanie 2: Dodawanie danych (DML - INSERT)
 Wprowadź do tabeli 5 dowolnych produktów.
 
@@ -78,6 +88,20 @@ Wprowadź do tabeli 5 dowolnych produktów.
 INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Chleb', 4.50, 10);
 INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Mleko', 3.20, 20);
 -- Dodaj pozostałe 3 produkty
+```
+
+### Przykładowy wynik (Oczekiwany rezultat)
+Aby sprawdzić, czy dane zostały dodane, wykonaj:
+```sql
+SELECT * FROM Produkty;
+```
+**Wynik (przykładowy):**
+```text
+id | nazwa | cena | ilosc
+---|-------|------|------
+1  | Chleb | 4.5  | 10
+2  | Mleko | 3.2  | 20
+... (pozostałe rekordy)
 ```
 
 ## Zadanie 3: Modyfikacja i usuwanie danych (DML - UPDATE, DELETE)
