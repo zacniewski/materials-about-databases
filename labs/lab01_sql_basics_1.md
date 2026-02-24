@@ -5,36 +5,65 @@ Zapoznanie z podstawami języka SQL w zakresie definiowania struktury danych (DD
 
 ## Podstawy teoretyczne
 
-Język SQL (Structured Query Language) dzieli się na kilka podjęzyków, z których najważniejsze to:
+### Czym jest SQL?
+**SQL** (Structured Query Language) to ustrukturyzowany język zapytań służący do zarządzania i operowania na danych w relacyjnych bazach danych (RDBMS). Pozwala on na tworzenie struktur bazy, dodawanie danych, ich modyfikację oraz pobieranie informacji spełniających określone kryteria.
 
-### DDL (Data Definition Language)
-Służy do definiowania struktury bazy danych (tworzenie, modyfikacja, usuwanie tabel i innych obiektów).
-- `CREATE TABLE` – tworzy nową tabelę.
-- `ALTER TABLE` – modyfikuje strukturę istniejącej tabeli.
-- `DROP TABLE` – usuwa tabelę.
+### Architektura danych: Tabela
+W relacyjnych bazach danych dane przechowywane są w **tabelach**. Tabela składa się z:
+- **Kolumn (Pól)** – definiują rodzaj przechowywanych informacji (np. imię, cena, data). Każda kolumna ma określony typ danych.
+- **Wierszy (Rekordów)** – konkretne wystąpienia danych w tabeli (np. konkretny produkt lub klient).
 
-### DML (Data Manipulation Language)
-Służy do operowania na danych wewnątrz tabel.
-- `INSERT INTO` – dodaje nowe rekordy.
-- `UPDATE` – modyfikuje istniejące dane.
-- `DELETE` – usuwa rekordy.
+#### Przykład wizualny tabeli `Produkty`:
+| id (PK) | nazwa | cena | ilosc |
+|:---:|:---|:---:|:---:|
+| 1 | Chleb | 4.50 | 10 |
+| 2 | Mleko | 3.20 | 20 |
 
-### Przykład relacji i struktury (Mermaid)
+### Klucz Główny (Primary Key)
+Każda tabela powinna posiadać **Klucz Główny (PK)**. Jest to kolumna (lub zestaw kolumn), która jednoznacznie identyfikuje każdy rekord w tabeli. Wartości w tej kolumnie muszą być unikalne i nie mogą być puste (`NOT NULL`).
+
+### Podjęzyki SQL
+Język SQL dzieli się na kilka grup poleceń w zależności od ich przeznaczenia:
+
+1.  **DDL (Data Definition Language)** – Język definicji danych. Służy do tworzenia, modyfikowania i usuwania struktur bazy danych (tabel, widoków, indeksów).
+    - `CREATE` – tworzenie nowych obiektów.
+    - `ALTER` – zmiana struktury istniejących obiektów.
+    - `DROP` – usuwanie obiektów.
+2.  **DML (Data Manipulation Language)** – Język manipulacji danymi. Służy do pracy na konkretnych rekordach.
+    - `INSERT` – dodawanie nowych wierszy.
+    - `UPDATE` – modyfikacja istniejących danych.
+    - `DELETE` – usuwanie wierszy.
+3.  **DQL (Data Query Language)** – Język zapytań. Służy do pobierania danych z bazy.
+    - `SELECT` – wybieranie danych.
+
+### Typy danych w SQLite
+Podczas tworzenia tabeli musimy określić, jakiego rodzaju dane będą przechowywane w kolumnach. Najpopularniejsze typy w SQLite to:
+- `INTEGER` – liczby całkowite.
+- `REAL` – liczby zmiennoprzecinkowe (dziesiętne).
+- `TEXT` – ciągi znaków (napisy).
+- `BLOB` – dane binarne (np. zdjęcia).
+- `NULL` – brak wartości.
+
+### Wizualizacja struktury (Diagram Mermaid)
+Diagramy encji (ERD) pozwalają graficznie przedstawić strukturę bazy danych i relacje między tabelami.
+
 ```mermaid
 erDiagram
     PRODUKTY {
-        int id PK
-        string nazwa
-        float cena
-        int ilosc
+        INTEGER id PK "Klucz główny, AUTOINCREMENT"
+        TEXT nazwa "NOT NULL"
+        REAL cena
+        INTEGER ilosc
     }
     KLIENCI {
-        int id PK
-        string imie
-        string nazwisko
-        string email
+        INTEGER id PK
+        TEXT imie
+        TEXT nazwisko
+        TEXT email "UNIQUE"
     }
 ```
+
+---
 
 ## Narzędzia
 - SQLite
