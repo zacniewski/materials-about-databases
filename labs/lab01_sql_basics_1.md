@@ -63,6 +63,57 @@ erDiagram
     }
 ```
 
+### Podstawowe operacje SQL
+
+#### 1. Pobieranie danych (DQL)
+Podstawowym poleceniem służącym do odczytu danych jest `SELECT`.
+
+- **SELECT** – wybiera określone kolumny (lub wszystkie przy użyciu `*`).
+- **FROM** – wskazuje tabelę, z której pobieramy dane.
+- **WHERE** – filtruje rekordy spełniające określone warunki.
+- **ORDER BY** – sortuje wyniki (rosnąco `ASC` lub malejąco `DESC`).
+- **LIMIT** – ogranicza liczbę zwracanych wierszy.
+
+**Przykład:** Pobierz nazwę i cenę produktów droższych niż 4.00 zł, posortowanych od najdroższych.
+```sql
+SELECT nazwa, cena 
+FROM Produkty 
+WHERE cena > 4.00 
+ORDER BY cena DESC;
+```
+**Wynik:**
+| nazwa | cena |
+|:---|:---:|
+| Chleb | 4.50 |
+
+#### 2. Wstawianie danych (DML)
+Polecenie `INSERT INTO` służy do dodawania nowych rekordów.
+
+**Przykład:**
+```sql
+INSERT INTO Produkty (nazwa, cena, ilosc) 
+VALUES ('Masło', 7.50, 5);
+```
+
+#### 3. Aktualizacja danych (DML)
+Polecenie `UPDATE` zmienia wartości w istniejących rekordach. **Ważne:** Zawsze używaj `WHERE`, aby nie zmienić wszystkich rekordów w tabeli!
+
+**Przykład:** Zwiększ ilość dla produktu o `id = 1`.
+```sql
+UPDATE Produkty 
+SET ilosc = ilosc + 5 
+WHERE id = 1;
+```
+
+#### 4. Usuwanie danych (DML)
+Polecenie `DELETE` usuwa rekordy z tabeli. Podobnie jak przy `UPDATE`, klauzula `WHERE` jest kluczowa.
+
+**Przykład:** Usuń produkty, których ilość wynosi 0.
+```sql
+DELETE FROM Produkty 
+WHERE ilosc = 0;
+```
+
 ---
 
 ## Narzędzia
