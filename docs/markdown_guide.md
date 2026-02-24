@@ -1,6 +1,8 @@
 # Praca z Markdownem
 
-Markdown to lekki język znaczników, który pozwala na szybkie i czytelne formatowanie tekstu. Poniżej znajduje się przewodnik po najważniejszych elementach Markdowna, przydatnych przy tworzeniu dokumentacji projektowej i raportów z laboratoriów.
+Markdown to lekki język znaczników, który pozwala na szybkie i czytelne formatowanie tekstu. Pliki Markdown mają zazwyczaj rozszerzenie `.md`.
+
+Poniżej znajduje się przewodnik po najważniejszych elementach Markdowna, przydatnych przy tworzeniu dokumentacji projektowej i raportów z laboratoriów.
 
 ## 1. Podstawowe formatowanie tekstu
 
@@ -97,3 +99,24 @@ Po użyciu: [Google](https://www.google.com)
 |:---------------:|:---------------:|
 |    Wartość A    |    Wartość B    |
 |    Wartość C    |    Wartość D    |
+
+## 6. Eksport do PDF
+### Narzędzia JetBrains (IntelliJ, PyCharm, DataGrip)
+Aby przekonwertować plik Markdown na format PDF za pomocą środowisk IDE od JetBrains:
+
+1. Otwórz plik `.md` w edytorze.
+2. Upewnij się, że masz włączony podgląd Markdown (ikona dzielonego okna w prawym górnym rogu edytora).
+3. Kliknij prawym przyciskiem myszy w obszarze edytora tekstu lub podglądu.
+4. Wybierz opcję **Export to PDF...** (lub **Export to HTML...** jeśli wolisz format przeglądarkowy).
+5. Wybierz miejsce zapisu i potwierdź.
+
+### Visual Studio Code
+W VS Code najpopularniejszym sposobem jest użycie rozszerzenia **Markdown PDF**:
+
+1. Zainstaluj rozszerzenie **Markdown PDF** (autor: yyzhang) z VS Code Marketplace.
+2. Otwórz plik `.md`.
+3. Kliknij prawym przyciskiem myszy wewnątrz edytora tekstu.
+4. Wybierz opcję **Markdown PDF: Export (pdf)**.
+5. Plik PDF zostanie wygenerowany w tym samym folderze co plik źródłowy.
+
+Alternatywnie możesz użyć skrótu `Ctrl+Shift+P`, wpisać `Markdown PDF: Export (pdf)` i zatwierdzić klawiszem `Enter`.
