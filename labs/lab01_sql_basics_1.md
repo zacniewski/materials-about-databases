@@ -117,8 +117,10 @@ WHERE ilosc = 0;
 ---
 
 ## Narzędzia
-- SQLite
-- DB Browser for SQLite
+- **PostgreSQL** (główny system bazodanowy)
+- pgAdmin lub `psql` (narzędzia klienckie)
+- SQLite (opcjonalnie, jako lekka alternatywa)
+- DB Browser for SQLite (opcjonalnie)
 
 ## Krótka instrukcja pracy z Markdownem
 - Nagłówki: używaj `#`, `##`, `###` (więcej `#` = niższy poziom)
@@ -136,12 +138,23 @@ SELECT * FROM Produkty;
 - Obraz: `![alt](sciezka/do/obrazu.png)`
 
 ## Zadanie 1: Tworzenie bazy danych i tabel (DDL)
-Stwórz bazę danych `sklep.db`, a w niej tabelę `Produkty` o następującej strukturze:
-- `id`: klucz główny, autoinkrementacja
-- `nazwa`: tekst, nie może być puste
-- `cena`: liczba zmiennoprzecinkowa
-- `ilosc`: liczba całkowita
+Stwórz bazę danych `sklep`, a w niej tabelę `Produkty` o następującej strukturze:
+- `id`: klucz główny, automatyczna inkrementacja (`SERIAL`)
+- `nazwa`: tekst (`VARCHAR`), nie może być puste
+- `cena`: liczba zmiennoprzecinkowa (`NUMERIC`)
+- `ilosc`: liczba całkowita (`INTEGER`)
 
+**Przykład dla PostgreSQL:**
+```sql
+CREATE TABLE Produkty (
+    id SERIAL PRIMARY KEY,
+    nazwa VARCHAR(100) NOT NULL,
+    cena NUMERIC(10, 2),
+    ilosc INTEGER
+);
+```
+
+**Przykład dla SQLite (opcjonalnie):**
 ```sql
 CREATE TABLE Produkty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -152,18 +165,24 @@ CREATE TABLE Produkty (
 ```
 
 ### Przykładowy wynik (Oczekiwany rezultat)
-Po wykonaniu polecenia `CREATE TABLE`, tabela zostanie utworzona. Możesz to sprawdzić poleceniem:
+Po wykonaniu polecenia `CREATE TABLE`, tabela zostanie utworzona. W `psql` możesz to sprawdzić poleceniem:
 ```sql
-.tables
+\dt
 ```
+(W SQLite użyłbyś `.tables`)
+
 **Wynik:**
 ```text
-Produkty
+          List of relations
+ Schema |   Name   | Type  |  Owner   
+--------+----------+-------+----------
+ public | produkty | table | postgres
 ```
 
 ## Zadanie 2: Dodawanie danych (DML - INSERT)
 Wprowadź do tabeli 5 dowolnych produktów.
 
+**Przykład dla PostgreSQL:**
 ```sql
 INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Chleb', 4.50, 10);
 INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Mleko', 3.20, 20);
@@ -177,10 +196,10 @@ SELECT * FROM Produkty;
 ```
 **Wynik (przykładowy):**
 ```text
-id | nazwa | cena | ilosc
----|-------|------|------
-1  | Chleb | 4.5  | 10
-2  | Mleko | 3.2  | 20
+ id | nazwa | cena | ilosc 
+----+-------+------+-------
+  1 | Chleb | 4.50 |    10
+  2 | Mleko | 3.20 |    20
 ... (pozostałe rekordy)
 ```
 
@@ -189,8 +208,8 @@ id | nazwa | cena | ilosc
 2. Usuń produkt o nazwie 'Mleko'.
 
 ## Ćwiczenie do wykonania
-Stwórz tabelę `Klienci` (id, imie, nazwisko, email) i dodaj do niej 3 rekordy.
+Stwórz tabelę `Klienci` (id, imie, nazwisko, email) w PostgreSQL i dodaj do niej 3 rekordy. Skorzystaj z typu `SERIAL` dla id.
 
 ## Ćwiczenia dodatkowe
-1. Dodaj do tabeli `Produkty` kolumnę `kategoria` (TEXT), uzupełnij ją dla istniejących rekordów i przygotuj zapytanie zwracające liczbę produktów w każdej kategorii.
+1. Dodaj do tabeli `Produkty` kolumnę `kategoria` (VARCHAR), uzupełnij ją dla istniejących rekordów i przygotuj zapytanie zwracające liczbę produktów w każdej kategorii.
 2. Dodaj ograniczenie `CHECK` na kolumnie `ilosc`, aby wartość nie mogła być ujemna. Przetestuj działanie poprzez próbę wstawienia błędnego rekordu.

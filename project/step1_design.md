@@ -37,4 +37,5 @@ erDiagram
 ## Wytyczne projektowe
 - Każda tabela musi mieć klucz główny (`PRIMARY KEY`).
 - Relacje wiele-do-wielu (np. Film-Aktor) muszą być zrealizowane za pomocą tabel łączących.
-- Należy zastosować odpowiednie typy danych (TEXT, INTEGER, REAL).
+- Stosuj typy danych PostgreSQL: `VARCHAR(n)`/`TEXT`, `INTEGER`/`BIGINT`, `NUMERIC(precision, scale)` dla wartości pieniężnych, `DATE`, `TIMESTAMP`.
+- Klucze sztuczne: `SERIAL` lub `GENERATED ALWAYS AS IDENTITY` (preferowane w nowych projektach).

@@ -42,6 +42,24 @@ erDiagram
 3. **Agregacja**: Oblicz średnią cenę produktów w sklepie.
 
 ## Przykład JOIN
+**Przykład dla PostgreSQL:**
+```sql
+CREATE TABLE Zamowienia (
+    id_zamowienia SERIAL PRIMARY KEY,
+    id_klienta INTEGER,
+    data_zamowienia DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT fk_klient FOREIGN KEY(id_klienta) REFERENCES Klienci(id)
+);
+
+-- Przykładowe dane
+INSERT INTO Zamowienia (id_klienta, data_zamowienia) VALUES (1, '2023-10-01');
+
+SELECT Klienci.imie, Klienci.nazwisko, Zamowienia.data_zamowienia
+FROM Klienci
+JOIN Zamowienia ON Klienci.id = Zamowienia.id_klienta;
+```
+
+**Przykład dla SQLite (opcjonalnie):**
 ```sql
 CREATE TABLE Zamowienia (
     id_zamowienia INTEGER PRIMARY KEY,
@@ -49,26 +67,19 @@ CREATE TABLE Zamowienia (
     data TEXT,
     FOREIGN KEY(id_klienta) REFERENCES Klienci(id)
 );
-
--- Przykładowe dane
-INSERT INTO Zamowienia (id_klienta, data) VALUES (1, '2023-10-01');
-
-SELECT Klienci.imie, Klienci.nazwisko, Zamowienia.data
-FROM Klienci
-JOIN Zamowienia ON Klienci.id = Zamowienia.id_klienta;
 ```
 
 ### Przykładowy wynik (Oczekiwany rezultat)
 Jeśli w tabeli `Klienci` masz osobę o id=1 (np. Jan Kowalski), wynik zapytania będzie wyglądał następująco:
 **Wynik:**
 ```text
-imie | nazwisko | data
------|----------|-----------
-Jan  | Kowalski | 2023-10-01
+ imie | nazwisko | data_zamowienia 
+------+----------+-----------------
+ Jan  | Kowalski | 2023-10-01
 ```
 
 ## Ćwiczenie
-Wyświetl liczbę produktów w poszczególnych kategoriach (dodaj kolumnę `kategoria` do tabeli `Produkty`).
+Wyświetl liczbę produktów w poszczególnych kategoriach (wykorzystaj tabelę `Produkty` z PostgreSQL).
 
 ## Ćwiczenia dodatkowe
 1. Wyświetl listę klientów, którzy nie złożyli żadnego zamówienia (użyj `LEFT JOIN` i `WHERE Zamowienia.id_zamowienia IS NULL`).

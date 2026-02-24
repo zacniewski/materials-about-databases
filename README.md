@@ -11,8 +11,8 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 15 god
 4. [Laboratorium 4: SQL - Funkcje i operacje na zbiorach](./labs/lab04_sql_functions.md) - 2h
 5. [Laboratorium 5: Integralność danych i normalizacja](./labs/lab05_integrity_normalization.md) - 2h
 6. [Laboratorium 6: Transakcje w bazach danych](./labs/lab06_transactions.md) - 2h
-7. [Laboratorium 7: Proceduralne rozszerzenia SQL - Wstęp (Python + SQLite)](./labs/lab07_procedural_1.md) - 1.5h
-8. [Laboratorium 8: Wyzwalacze i zaawansowana logika proceduralna](./labs/lab08_procedural_2.md) - 1.5h
+7. [Laboratorium 7: Proceduralne rozszerzenia SQL - PL/pgSQL i Python](./labs/lab07_procedural_1.md) - 1.5h
+8. [Laboratorium 8: Wyzwalacze w PostgreSQL i SQLite](./labs/lab08_procedural_2.md) - 1.5h
 
 ### [Projekt (15h)](./project/)
 1. [Wstęp do projektu i wymagania](./project/README.md)
@@ -22,7 +22,8 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 15 god
 5. [Etap 4: Analiza danych i raportowanie](./project/step4_analysis.md) - 1h
 
 ## Narzędzia
-- **Baza danych:** SQLite
-- **Klient:** [DB Browser for SQLite](https://sqlitebrowser.org/)
-- **Język pomocniczy:** Python (dla rozszerzeń proceduralnych)
+- **Baza danych (główna):** PostgreSQL
+- **Klient:** psql lub pgAdmin
+- **Alternatywnie (opcjonalnie):** SQLite + DB Browser for SQLite
+- **Język pomocniczy:** Python (np. `psycopg` dla PostgreSQL lub `sqlite3` dla SQLite)
 - **Diagramy:** Mermaid (Markdown)

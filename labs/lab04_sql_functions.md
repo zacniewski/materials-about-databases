@@ -6,10 +6,12 @@ Praca z wbudowanymi funkcjami (tekstowe, daty) oraz operatory zbiorowe (UNION, I
 ## Podstawy teoretyczne
 
 ### Funkcje wbudowane
-Bazy danych oferują zestaw gotowych funkcji do manipulacji danymi:
-- **Tekstowe**: `UPPER()`, `LOWER()`, `LENGTH()`, `SUBSTR()`, `REPLACE()`.
+Bazy danych oferują zestaw gotowych funkcji do manipulacji danymi. Poniżej przykłady dla PostgreSQL:
+- **Tekstowe**: `UPPER()`, `LOWER()`, `LENGTH()`, `SUBSTRING()`, `REPLACE()`.
 - **Liczbowe**: `ROUND()`, `ABS()`, `COALESCE()` (zwraca pierwszą niepustą wartość).
-- **Daty i czasu**: `DATE()`, `TIME()`, `DATETIME()`, `STRFTIME()`.
+- **Daty i czasu**: `CURRENT_DATE`, `CURRENT_TIME`, `NOW()`, `EXTRACT(YEAR FROM date)`.
+
+*(W SQLite funkcje daty to np. `DATE()`, `TIME()`, `STRFTIME()`)*
 
 ### Operacje zbiorowe
 Pozwalają na łączenie wyników dwóch lub więcej zapytań `SELECT`. Zapytania muszą mieć tę samą liczbę kolumn o zgodnych typach danych.
@@ -34,10 +36,19 @@ graph LR
 
 ## Zadania
 1. **Funkcje tekstowe**: Zamień wszystkie nazwiska klientów na wielkie litery.
-2. **Funkcje dat**: Wyciągnij rok z daty zamówienia.
+2. **Funkcje dat**: Wyciągnij rok z daty zamówienia (użyj `EXTRACT` w PostgreSQL).
 3. **Operacje na zbiorach**: Pobierz listę produktów, które nigdy nie zostały zamówione (używając `EXCEPT`).
 
 ## Przykład UNION
+**Przykład dla PostgreSQL:**
+```sql
+SELECT imie FROM Klienci
+UNION
+SELECT nazwa FROM Produkty;
+```
+
+**Przykład dla SQLite (opcjonalnie):**
+*(Składnia identyczna)*
 ```sql
 SELECT imie FROM Klienci
 UNION
@@ -48,16 +59,15 @@ SELECT nazwa FROM Produkty;
 Jeśli w tabeli `Klienci` masz "Jan", a w `Produkty` masz "Chleb":
 **Wynik:**
 ```text
-imie
------
-Chleb
-Jan
+ imie  
+-------
+ Chleb
+ Jan
 ```
-*(Wyniki są posortowane alfabetycznie przy użyciu UNION)*
 
 ## Ćwiczenie
-Znajdź wszystkich klientów, których nazwisko zaczyna się na literę 'K' (użyj `LIKE`).
+Znajdź wszystkich klientów w PostgreSQL, których nazwisko zaczyna się na literę 'K' (użyj `LIKE` lub `ILIKE` dla niewrażliwości na wielkość liter).
 
 ## Ćwiczenia dodatkowe
 1. Użyj `COALESCE`, aby zastąpić brakujące ceny (`NULL`) wartością 0 i oblicz średnią cenę po zastąpieniu.
-2. Wyświetl zamówienia w formacie `YYYY-MM` (użyj `strftime('%Y-%m', data)`) i zlicz liczbę zamówień na miesiąc. Porównaj wyniki dla `UNION` i `UNION ALL` przy łączeniu danych z dwóch tabel.
+2. Wyświetl zamówienia w formacie `YYYY-MM`. W PostgreSQL użyj `TO_CHAR(data_zamowienia, 'YYYY-MM')`, a w SQLite `strftime('%Y-%m', data)`. Zlicz liczbę zamówień na miesiąc.

@@ -34,26 +34,35 @@ graph TD
 3. **Widoki (Views)**: Stwórz widok `PodsumowanieSprzedazy`, który łączy informacje o produktach, zamówieniach i klientach.
 
 ## Przykład Widoku
+**Przykład dla PostgreSQL:**
 ```sql
 CREATE VIEW WidokZamowien AS
-SELECT z.id_zamowienia, k.nazwisko, z.data
+SELECT z.id_zamowienia, k.nazwisko, z.data_zamowienia
 FROM Zamowienia z
 JOIN Klienci k ON z.id_klienta = k.id;
 
 SELECT * FROM WidokZamowien;
 ```
 
+**Przykład dla SQLite (opcjonalnie):**
+```sql
+CREATE VIEW WidokZamowien AS
+SELECT z.id_zamowienia, k.nazwisko, z.data
+FROM Zamowienia z
+JOIN Klienci k ON z.id_klienta = k.id;
+```
+
 ### Przykładowy wynik (Oczekiwany rezultat)
 Dla przykładowego zamówienia klienta o nazwisku Kowalski:
 **Wynik:**
 ```text
-id_zamowienia | nazwisko | data
---------------|----------|-----------
-1             | Kowalski | 2023-10-01
+ id_zamowienia | nazwisko | data_zamowienia 
+---------------+----------+-----------------
+             1 | Kowalski | 2023-10-01
 ```
 
 ## Ćwiczenie
-Stwórz widok, który pokazuje tylko produkty o niskim stanie magazynowym (np. `ilosc < 5`).
+Stwórz widok w PostgreSQL, który pokazuje tylko produkty o niskim stanie magazynowym (np. `ilosc < 5`).
 
 ## Ćwiczenia dodatkowe
 1. Używając `EXISTS`, znajdź klientów, którzy zamówili przynajmniej jeden produkt z kategorii "Napoje".

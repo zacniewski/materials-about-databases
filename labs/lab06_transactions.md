@@ -26,20 +26,31 @@ stateDiagram-v2
 
 ## Zadanie: Przelew bankowy
 Wyobraźmy sobie tabelę `Konta`:
+**Przykład dla PostgreSQL:**
+```sql
+CREATE TABLE Konta (
+    id_konta SERIAL PRIMARY KEY,
+    wlasciciel VARCHAR(100),
+    saldo NUMERIC(15, 2) CHECK (saldo >= 0)
+);
+
+INSERT INTO Konta (wlasciciel, saldo) VALUES ('Jan Kowalski', 1000);
+INSERT INTO Konta (wlasciciel, saldo) VALUES ('Anna Nowak', 500);
+```
+
+**Przykład dla SQLite (opcjonalnie):**
 ```sql
 CREATE TABLE Konta (
     id_konta INTEGER PRIMARY KEY,
     wlasciciel TEXT,
     saldo REAL
 );
-
-INSERT INTO Konta VALUES (1, 'Jan Kowalski', 1000);
-INSERT INTO Konta VALUES (2, 'Anna Nowak', 500);
 ```
 
 ### Wykonanie transakcji
+**Przykład dla PostgreSQL:**
 ```sql
-BEGIN TRANSACTION;
+BEGIN;
 
 UPDATE Konta SET saldo = saldo - 100 WHERE id_konta = 1;
 UPDATE Konta SET saldo = saldo + 100 WHERE id_konta = 2;
@@ -50,20 +61,27 @@ SELECT * FROM Konta;
 COMMIT;
 ```
 
+**Przykład dla SQLite (opcjonalnie):**
+```sql
+BEGIN TRANSACTION;
+-- ... operacje ...
+COMMIT;
+```
+
 ### Przykładowy wynik (Oczekiwany rezultat)
 Jeśli przed transakcją Konta miały salda: 1 -> 1000, 2 -> 500.
 **Wynik po UPDATE (wewnątrz transakcji):**
 ```text
-id_konta | wlasciciel    | saldo
----------|---------------|-------
-1        | Jan Kowalski  | 900
-2        | Anna Nowak    | 600
+ id_konta |  wlasciciel  | saldo  
+----------+--------------+--------
+        1 | Jan Kowalski | 900.00
+        2 | Anna Nowak   | 600.00
 ```
 Po wykonaniu `COMMIT` zmiany stają się trwałe.
 
 ## Ćwiczenie
-Spróbuj wykonać transakcję, która kończy się błędem (np. naruszenie więzu CHECK na ujemne saldo) i wycofaj zmiany.
+Spróbuj wykonać transakcję w PostgreSQL, która kończy się błędem (np. naruszenie więzu `CHECK` na ujemne saldo poprzez zbyt duży przelew) i zaobserwuj, jak baza danych reaguje na błąd.
 
 ## Ćwiczenia dodatkowe
-1. Zademonstruj użycie `SAVEPOINT`, `RELEASE` i `ROLLBACK TO` na przykładzie operacji częściowo udanych w ramach większej transakcji.
-2. Porównaj `BEGIN DEFERRED`, `BEGIN IMMEDIATE` i `BEGIN EXCLUSIVE` w SQLite: przygotuj krótkie demo (nawet jednosesyjne), które pokazuje różnice w blokadach podczas wykonywania `UPDATE` na tej samej tabeli.
+1. Zademonstruj użycie `SAVEPOINT`, `RELEASE SAVEPOINT` i `ROLLBACK TO SAVEPOINT` w PostgreSQL na przykładzie operacji częściowo udanych w ramach większej transakcji.
+2. Porównaj poziomy izolacji transakcji w PostgreSQL (`READ COMMITTED`, `REPEATABLE READ`, `SERIALIZABLE`). Przygotuj krótkie demo pokazujące różnicę między nimi.
