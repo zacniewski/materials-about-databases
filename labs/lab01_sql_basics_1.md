@@ -15,7 +15,7 @@ W relacyjnych bazach danych dane przechowywane są w **tabelach**. Tabela skład
 
 #### Przykład wizualny tabeli `Produkty`:
 | id (PK) | nazwa | cena | ilosc |
-|:---:|:---|:---:|:---:|
+|:---:|:---:|:---:|:---:|
 | 1 | Chleb | 4.50 | 10 |
 | 2 | Mleko | 3.20 | 20 |
 
@@ -122,20 +122,9 @@ WHERE ilosc = 0;
 - SQLite (opcjonalnie, jako lekka alternatywa)
 - DB Browser for SQLite (opcjonalnie)
 
-## Krótka instrukcja pracy z Markdownem
-- Nagłówki: używaj `#`, `##`, `###` (więcej `#` = niższy poziom)
-- Pogrubienie: `**tekst**`, kursywa: `*tekst*`
-- Listy:
-  - wypunktowanie: `-` lub `*`
-  - numerowanie: `1.`, `2.`
-- Kod w linii: `` `fragment` ``, blok kodu:
-```md
-```sql
-SELECT * FROM Produkty;
-```
-```
-- Link: `[tekst](https://adres)`
-- Obraz: `![alt](sciezka/do/obrazu.png)`
+## Praca z Markdownem
+Szczegółowe informacje na temat formatowania dokumentacji oraz raportów w języku Markdown (w tym wstawianie kodu SQL, obrazków i tabel) znajdziesz w osobnym przewodniku:
+👉 [Przewodnik po Markdown](../docs/markdown_guide.md)
 
 ## Zadanie 1: Tworzenie bazy danych i tabel (DDL)
 Stwórz bazę danych `sklep`, a w niej tabelę `Produkty` o następującej strukturze:

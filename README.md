@@ -27,3 +27,6 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 15 god
 - **Alternatywnie (opcjonalnie):** SQLite + DB Browser for SQLite
 - **Język pomocniczy:** Python (np. `psycopg` dla PostgreSQL lub `sqlite3` dla SQLite)
 - **Diagramy:** Mermaid (Markdown)
+
+## Poradniki i formatowanie
+- Przewodnik po Markdown (kawałki kodu SQL, podstawowe formatowanie, obrazy, tabele): [docs/markdown_guide.md](./docs/markdown_guide.md)
