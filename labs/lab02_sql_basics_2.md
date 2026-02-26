@@ -1,86 +1,92 @@
-# Laboratorium 2: SQL - Zapytania, złączenia i agregacja (część 2)
+### Laboratorium 2: Podstawy kwerend – filtrowanie danych SQL
 
-## Cel laboratorium
-Opanowanie umiejętności pobierania danych z wielu tabel, filtrowania wyników oraz korzystania z funkcji agregujących.
+### Cel laboratorium
+Celem zajęć jest opanowanie umiejętności filtrowania danych w SQL przy użyciu klauzuli `WHERE`, operatorów porównania, operatorów logicznych (`AND`, `OR`, `NOT`) oraz specjalnych operatorów takich jak `BETWEEN`, `IN`, `LIKE` oraz `IS NULL`.
 
-## Podstawy teoretyczne
+### Podstawy teoretyczne
 
-### DQL (Data Query Language)
-Służy do pobierania (odczytywania) danych z bazy. Głównym poleceniem jest `SELECT`.
-- `SELECT ... FROM ... WHERE ...` – wybieranie kolumn z tabeli z opcjonalnym filtrowaniem.
-- `ORDER BY` – sortowanie wyników (domyślnie `ASC` - rosnąco, `DESC` - malejąco).
+Filtrowanie danych pozwala na pobranie z bazy tylko tych rekordów, które spełniają określone kryteria. Służy do tego klauzula `WHERE`.
 
-### Agregacja i grupowanie
-- `COUNT()`, `SUM()`, `AVG()`, `MIN()`, `MAX()` – funkcje wykonujące obliczenia na zbiorze rekordów.
-- `GROUP BY` – grupuje rekordy o tych samych wartościach w określonych kolumnach.
-- `HAVING` – warunek filtrujący dla grup (odpowiednik `WHERE` dla zgrupowanych danych).
+#### 1. Operatory porównania
+- `=` (równe), `<>` lub `!=` (różne)
+- `<` (mniejsze), `>` (większe)
+- `<=` (mniejsze lub równe), `>=` (większe lub równe)
 
-### Złączenia (JOINs)
-Złączenia pozwalają na łączenie danych z wielu tabel na podstawie powiązanych kolumn.
-- `INNER JOIN` – zwraca tylko rekordy pasujące w obu tabelach.
-- `LEFT JOIN` – zwraca wszystkie rekordy z lewej tabeli i dopasowane rekordy z prawej (jeśli brak dopasowania, wstawia NULL).
+#### 2. Operatory logiczne
+- `AND` – oba warunki muszą być spełnione.
+- `OR` – przynajmniej jeden warunek musi być spełniony.
+- `NOT` – zaprzeczenie warunku.
 
-### Schemat złączenia (Mermaid)
+#### 3. Operatory specjalne
+- `BETWEEN wartość1 AND wartość2` – zakres domknięty (liczby, daty, tekst).
+- `IN (wartość1, wartość2, ...)` – przynależność do zbioru.
+- `LIKE` – dopasowanie wzorca tekstowego:
+    - `%` – dowolny ciąg znaków (0 lub więcej).
+    - `_` – dokładnie jeden dowolny znak.
+- `IS NULL` / `IS NOT NULL` – sprawdzanie, czy kolumna zawiera wartość pustą.
+
+### Przygotowanie środowiska
+Przed przystąpieniem do zadań należy zaimportować strukturę bazy danych i przykładowe dane:
+👉 [Skrypt SQL: lab02_computer_shop.sql](lab02_computer_shop.sql)
+
+### Schemat bazy danych (Mermaid)
 ```mermaid
 erDiagram
-    KLIENCI ||--o{ ZAMOWIENIA : "składa"
-    KLIENCI {
+    Producenci ||--o{ Produkty : "produkuje"
+    Klienci ||--o{ Zamowienia : "składa"
+    Produkty ||--o{ Zamowienia : "jest zamawiany"
+    
+    Producenci {
+        int id PK
+        string nazwa
+        string kraj
+    }
+    Produkty {
+        int id PK
+        string nazwa
+        numeric cena
+        int ilosc_na_stanie
+        string kategoria
+        int id_producenta FK
+    }
+    Klienci {
         int id PK
         string imie
         string nazwisko
+        string email
+        string miasto
     }
-    ZAMOWIENIA {
-        int id_zamowienia PK
+    Zamowienia {
+        int id PK
         int id_klienta FK
-        string data
+        int id_produktu FK
+        date data_zamowienia
+        int liczba_sztuk
     }
 ```
 
-## Zadania
-1. **SELECT z filtrowaniem**: Pobierz produkty o cenie wyższej niż 5.00.
-2. **JOIN**: Połącz tabelę `Zamowienia` (którą należy utworzyć) z tabelą `Klienci`.
-3. **Agregacja**: Oblicz średnią cenę produktów w sklepie.
+---
 
-## Przykład JOIN
-**Przykład dla PostgreSQL:**
-```sql
-CREATE TABLE Zamowienia (
-    id_zamowienia SERIAL PRIMARY KEY,
-    id_klienta INTEGER,
-    data_zamowienia DATE DEFAULT CURRENT_DATE,
-    CONSTRAINT fk_klient FOREIGN KEY(id_klienta) REFERENCES Klienci(id)
-);
+### Zadania do wykonania (Filtrowanie danych)
 
--- Przykładowe dane
-INSERT INTO Zamowienia (id_klienta, data_zamowienia) VALUES (1, '2023-10-01');
+1. Wyświetl wszystkie produkty, których cena jest wyższa niż 2000 zł.
+2. Wyświetl listę klientów, którzy mieszkają w Warszawie.
+3. Wyświetl produkty z kategorii 'Procesory', których ilość na stanie jest większa niż 10.
+4. Znajdź wszystkich producentów z 'USA' lub 'Tajwanu'.
+5. Wyświetl produkty, których cena mieści się w przedziale od 500 do 1500 zł (użyj `BETWEEN`).
+6. Wyświetl zamówienia złożone w pierwszej połowie października 2023 (od 2023-10-01 do 2023-10-15).
+7. Znajdź klientów, których nazwisko zaczyna się na literę 'K'.
+8. Wyświetl produkty, których kategoria to 'Monitory', 'Dyski' lub 'RAM' (użyj `IN`).
+9. Wyświetl wszystkich klientów, którzy mają adres e-mail w domenie `@email.pl`.
+10. Wyświetl produkty, które NIE należą do kategorii 'Laptopy' ani 'Drukarki'.
+11. Znajdź produkty, których nazwa zawiera słowo 'GeForce' lub 'Radeon'.
+12. Wyświetl klientów z miast innych niż 'Warszawa' i 'Kraków'.
+13. Wyświetl zamówienia, w których zakupiono więcej niż 2 sztuki produktu.
+14. Znajdź produkty, których cena jest niższa niż 1000 zł, a jednocześnie ich ilość na stanie jest mniejsza niż 20.
+15. Wyświetl producentów, których nazwa kończy się na literę 'i'.
+16. Znajdź klientów, których imię to 'Jan' lub 'Anna', a nazwisko zawiera literę 'o'.
+17. Wyświetl produkty o nazwie składającej się dokładnie z 5 znaków (użyj operatora `_` w `LIKE`).
+18. Znajdź produkty, których `id_producenta` to 1, 2 lub 3, a cena przekracza 1500 zł.
+19. Wyświetl zamówienia dokonane po 15 października 2023 roku.
+20. Wyświetl listę produktów, których nazwa zaczyna się od 'Ultra' i kosztują więcej niż 2000 zł.
 
-SELECT Klienci.imie, Klienci.nazwisko, Zamowienia.data_zamowienia
-FROM Klienci
-JOIN Zamowienia ON Klienci.id = Zamowienia.id_klienta;
-```
-
-**Przykład dla SQLite (opcjonalnie):**
-```sql
-CREATE TABLE Zamowienia (
-    id_zamowienia INTEGER PRIMARY KEY,
-    id_klienta INTEGER,
-    data TEXT,
-    FOREIGN KEY(id_klienta) REFERENCES Klienci(id)
-);
-```
-
-### Przykładowy wynik (Oczekiwany rezultat)
-Jeśli w tabeli `Klienci` masz osobę o id=1 (np. Jan Kowalski), wynik zapytania będzie wyglądał następująco:
-**Wynik:**
-```text
- imie | nazwisko | data_zamowienia 
-------+----------+-----------------
- Jan  | Kowalski | 2023-10-01
-```
-
-## Ćwiczenie
-Wyświetl liczbę produktów w poszczególnych kategoriach (wykorzystaj tabelę `Produkty` z PostgreSQL).
-
-## Ćwiczenia dodatkowe
-1. Wyświetl listę klientów, którzy nie złożyli żadnego zamówienia (użyj `LEFT JOIN` i `WHERE Zamowienia.id_zamowienia IS NULL`).
-2. Wyświetl kategorie produktów wraz ze średnią ceną, ale tylko te kategorie, w których jest co najmniej 3 produktów (`GROUP BY`, `HAVING COUNT(*) >= 3`).

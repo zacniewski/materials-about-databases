@@ -1,204 +1,98 @@
-# Laboratorium 1: Podstawy SQL - DDL i DML (część 1)
+# Laboratorium 1: Podstawy SQL - Zapytania SELECT (Baza Rembud)
 
 ## Cel laboratorium
-Zapoznanie z podstawami języka SQL w zakresie definiowania struktury danych (DDL) oraz manipulacji danymi (DML).
+Opanowanie umiejętności pobierania danych z bazy danych przy użyciu polecenia `SELECT`, filtrowania wyników, sortowania oraz ograniczania liczby rekordów.
 
 ## Podstawy teoretyczne
 
-### Czym jest SQL?
-**SQL** (Structured Query Language) to ustrukturyzowany język zapytań służący do zarządzania i operowania na danych w relacyjnych bazach danych (RDBMS). Pozwala on na tworzenie struktur bazy, dodawanie danych, ich modyfikację oraz pobieranie informacji spełniających określone kryteria.
+### DQL (Data Query Language)
+Służy do pobierania (odczytywania) danych z bazy. Głównym poleceniem jest `SELECT`.
 
-### Architektura danych: Tabela
-W relacyjnych bazach danych dane przechowywane są w **tabelach**. Tabela składa się z:
-- **Kolumn (Pól)** – definiują rodzaj przechowywanych informacji (np. imię, cena, data). Każda kolumna ma określony typ danych.
-- **Wierszy (Rekordów)** – konkretne wystąpienia danych w tabeli (np. konkretny produkt lub klient).
+#### Składnia polecenia SELECT:
+- `SELECT` – wybiera określone kolumny (użyj `*` dla wszystkich).
+- `FROM` – wskazuje tabelę.
+- `WHERE` – filtruje rekordy (np. `cena > 100`).
+- `ORDER BY` – sortuje wyniki (`ASC` - rosnąco, `DESC` - malejąco).
+- `LIMIT` – ogranicza liczbę zwracanych wierszy.
+- `DISTINCT` – usuwa duplikaty z wyników.
 
-#### Przykład wizualny tabeli `Produkty`:
-| id (PK) | nazwa | cena | ilosc |
-|:---:|:---:|:---:|:---:|
-| 1 | Chleb | 4.50 | 10 |
-| 2 | Mleko | 3.20 | 20 |
+### Przygotowanie środowiska
+Baza `rembud` ma być używana w pewnym dużym sklepie z materiałami remontowo-budowlanymi. Dozwolone są jedynie operacje wyszukiwania danych (SELECT).
 
-### Klucz Główny (Primary Key)
-Każda tabela powinna posiadać **Klucz Główny (PK)**. Jest to kolumna (lub zestaw kolumn), która jednoznacznie identyfikuje każdy rekord w tabeli. Wartości w tej kolumnie muszą być unikalne i nie mogą być puste (`NOT NULL`).
+Przed przystąpieniem do zadań należy zaimportować strukturę bazy danych i przykładowe dane:
+👉 [Skrypt SQL: lab01_rembudSQL.sql](lab01_rembudSQL.sql)
 
-### Podjęzyki SQL
-Język SQL dzieli się na kilka grup poleceń w zależności od ich przeznaczenia:
-
-1.  **DDL (Data Definition Language)** – Język definicji danych. Służy do tworzenia, modyfikowania i usuwania struktur bazy danych (tabel, widoków, indeksów).
-    - `CREATE` – tworzenie nowych obiektów.
-    - `ALTER` – zmiana struktury istniejących obiektów.
-    - `DROP` – usuwanie obiektów.
-2.  **DML (Data Manipulation Language)** – Język manipulacji danymi. Służy do pracy na konkretnych rekordach.
-    - `INSERT` – dodawanie nowych wierszy.
-    - `UPDATE` – modyfikacja istniejących danych.
-    - `DELETE` – usuwanie wierszy.
-3.  **DQL (Data Query Language)** – Język zapytań. Służy do pobierania danych z bazy.
-    - `SELECT` – wybieranie danych.
-
-### Typy danych w SQLite
-Podczas tworzenia tabeli musimy określić, jakiego rodzaju dane będą przechowywane w kolumnach. Najpopularniejsze typy w SQLite to:
-- `INTEGER` – liczby całkowite.
-- `REAL` – liczby zmiennoprzecinkowe (dziesiętne).
-- `TEXT` – ciągi znaków (napisy).
-- `BLOB` – dane binarne (np. zdjęcia).
-- `NULL` – brak wartości.
-
-### Wizualizacja struktury (Diagram Mermaid)
-Diagramy encji (ERD) pozwalają graficznie przedstawić strukturę bazy danych i relacje między tabelami.
+## Schemat bazy danych (Mermaid)
+Przeznaczenie tabel:
+- **klienci** – podstawowe dane klientów sklepu (drobni przedsiębiorcy, rabaty itp.).
+- **produkty** – dane o produktach sklepu.
+- **nagsprzedaz** – nagłówki sprzedaży (faktury).
+- **pozsprzedaz** – pozycje sprzedaży (produkty na konkretnym dokumencie).
 
 ```mermaid
 erDiagram
-    PRODUKTY {
-        INTEGER id PK "Klucz główny, AUTOINCREMENT"
-        TEXT nazwa "NOT NULL"
-        REAL cena
-        INTEGER ilosc
+    klienci ||--o{ nagsprzedaz : "posiada"
+    nagsprzedaz ||--|{ pozsprzedaz : "zawiera"
+    produkty ||--o{ pozsprzedaz : "jest w pozycji"
+    
+    klienci {
+        character idklienta PK
+        varchar nazwa
+        character nip
+        varchar adres
+        varchar miasto
+        character kod
+        numeric rabat
     }
-    KLIENCI {
-        INTEGER id PK
-        TEXT imie
-        TEXT nazwisko
-        TEXT email "UNIQUE"
+    produkty {
+        character idproduktu PK
+        varchar nazwa
+        numeric cena
+        numeric vat
+        numeric ilosc_w_op
+        varchar miara
+        varchar producent
+        numeric stan
+    }
+    nagsprzedaz {
+        integer nrfaktury PK
+        character idklienta FK
+        date datasp
+        character zaplacono
+    }
+    pozsprzedaz {
+        integer idpoz PK
+        integer nrfaktury FK
+        character idproduktu FK
+        numeric ilosc
     }
 ```
 
-### Podstawowe operacje SQL
+## Zadania
+Wykonaj poniższe zapytania SQL na tabelach przygotowanych w skrypcie:
 
-#### 1. Pobieranie danych (DQL)
-Podstawowym poleceniem służącym do odczytu danych jest `SELECT`.
-
-- **SELECT** – wybiera określone kolumny (lub wszystkie przy użyciu `*`).
-- **FROM** – wskazuje tabelę, z której pobieramy dane.
-- **WHERE** – filtruje rekordy spełniające określone warunki.
-- **ORDER BY** – sortuje wyniki (rosnąco `ASC` lub malejąco `DESC`).
-- **LIMIT** – ogranicza liczbę zwracanych wierszy.
-
-**Przykład:** Pobierz nazwę i cenę produktów droższych niż 4.00 zł, posortowanych od najdroższych.
-```sql
-SELECT nazwa, cena 
-FROM Produkty 
-WHERE cena > 4.00 
-ORDER BY cena DESC;
-```
-**Wynik:**
-| nazwa | cena |
-|:---|:---:|
-| Chleb | 4.50 |
-
-#### 2. Wstawianie danych (DML)
-Polecenie `INSERT INTO` służy do dodawania nowych rekordów.
-
-**Przykład:**
-```sql
-INSERT INTO Produkty (nazwa, cena, ilosc) 
-VALUES ('Masło', 7.50, 5);
-```
-
-#### 3. Aktualizacja danych (DML)
-Polecenie `UPDATE` zmienia wartości w istniejących rekordach. **Ważne:** Zawsze używaj `WHERE`, aby nie zmienić wszystkich rekordów w tabeli!
-
-**Przykład:** Zwiększ ilość dla produktu o `id = 1`.
-```sql
-UPDATE Produkty 
-SET ilosc = ilosc + 5 
-WHERE id = 1;
-```
-
-#### 4. Usuwanie danych (DML)
-Polecenie `DELETE` usuwa rekordy z tabeli. Podobnie jak przy `UPDATE`, klauzula `WHERE` jest kluczowa.
-
-**Przykład:** Usuń produkty, których ilość wynosi 0.
-```sql
-DELETE FROM Produkty 
-WHERE ilosc = 0;
-```
-
----
-
-## Narzędzia
-- **PostgreSQL** (główny system bazodanowy)
-- pgAdmin lub `psql` (narzędzia klienckie)
-- SQLite (opcjonalnie, jako lekka alternatywa)
-- DB Browser for SQLite (opcjonalnie)
-
-## Praca z Markdownem
-Szczegółowe informacje na temat formatowania dokumentacji oraz raportów w języku Markdown (w tym wstawianie kodu SQL, obrazków i tabel) znajdziesz w osobnym przewodniku:
-👉 [Przewodnik po Markdown](../docs/markdown_guide.md)
-
-## Zadanie 1: Tworzenie bazy danych i tabel (DDL)
-Stwórz bazę danych `sklep`, a w niej tabelę `Produkty` o następującej strukturze:
-- `id`: klucz główny, automatyczna inkrementacja (`SERIAL`)
-- `nazwa`: tekst (`VARCHAR`), nie może być puste
-- `cena`: liczba zmiennoprzecinkowa (`NUMERIC`)
-- `ilosc`: liczba całkowita (`INTEGER`)
-
-**Przykład dla PostgreSQL:**
-```sql
-CREATE TABLE Produkty (
-    id SERIAL PRIMARY KEY,
-    nazwa VARCHAR(100) NOT NULL,
-    cena NUMERIC(10, 2),
-    ilosc INTEGER
-);
-```
-
-**Przykład dla SQLite (opcjonalnie):**
-```sql
-CREATE TABLE Produkty (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nazwa TEXT NOT NULL,
-    cena REAL,
-    ilosc INTEGER
-);
-```
-
-### Przykładowy wynik (Oczekiwany rezultat)
-Po wykonaniu polecenia `CREATE TABLE`, tabela zostanie utworzona. W `psql` możesz to sprawdzić poleceniem:
-```sql
-\dt
-```
-(W SQLite użyłbyś `.tables`)
-
-**Wynik:**
-```text
-          List of relations
- Schema |   Name   | Type  |  Owner   
---------+----------+-------+----------
- public | produkty | table | postgres
-```
-
-## Zadanie 2: Dodawanie danych (DML - INSERT)
-Wprowadź do tabeli 5 dowolnych produktów.
-
-**Przykład dla PostgreSQL:**
-```sql
-INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Chleb', 4.50, 10);
-INSERT INTO Produkty (nazwa, cena, ilosc) VALUES ('Mleko', 3.20, 20);
--- Dodaj pozostałe 3 produkty
-```
-
-### Przykładowy wynik (Oczekiwany rezultat)
-Aby sprawdzić, czy dane zostały dodane, wykonaj:
-```sql
-SELECT * FROM Produkty;
-```
-**Wynik (przykładowy):**
-```text
- id | nazwa | cena | ilosc 
-----+-------+------+-------
-  1 | Chleb | 4.50 |    10
-  2 | Mleko | 3.20 |    20
-... (pozostałe rekordy)
-```
-
-## Zadanie 3: Modyfikacja i usuwanie danych (DML - UPDATE, DELETE)
-1. Zmień cenę produktu o id=1.
-2. Usuń produkt o nazwie 'Mleko'.
-
-## Ćwiczenie do wykonania
-Stwórz tabelę `Klienci` (id, imie, nazwisko, email) w PostgreSQL i dodaj do niej 3 rekordy. Skorzystaj z typu `SERIAL` dla id.
-
-## Ćwiczenia dodatkowe
-1. Dodaj do tabeli `Produkty` kolumnę `kategoria` (VARCHAR), uzupełnij ją dla istniejących rekordów i przygotuj zapytanie zwracające liczbę produktów w każdej kategorii.
-2. Dodaj ograniczenie `CHECK` na kolumnie `ilosc`, aby wartość nie mogła być ujemna. Przetestuj działanie poprzez próbę wstawienia błędnego rekordu.
+1. Podaj wszystkie dane o klientach (SELECT * FROM klienci).
+2. Podaj identyfikator, nazwę, producenta i cenę każdego produktu.
+3. Nazwa, cena, stan produktów producenta Cersanit.
+4. Identyfikator, nazwa, producent, cena produktów droższych niż 100.
+5. Numer faktury, id klienta, data dokumentów sprzedaży z okresu 15 – 25 stycznia.
+6. Nazwa, cena, miara i stan lakierów.
+7. Identyfikator, nazwa, adres klientów z Gdyni i Sopotu.
+8. Nazwa, producent, stan produktów Malfarba i Cersanita ze stanami w granicach [200, 2000].
+9. Nazwa, miasto, rabat klientów z Gdyni lub Słupska lub z niezerowym rabatem.
+10. Identyfikator, nazwa klienta z niezerowym rabatem z Gdyni lub Gdańska.
+11. Pełna informacja o każdym produkcie oraz jego cena brutto (w tabeli przechowujemy cenę netto).
+12. Pełna informacja o nieopłaconych dokumentach sprzedaży oraz liczba dni jakie minęły od dnia sprzedaży do dziś.
+13. Numery dokumentów sprzedaży na które sprzedano produkty o identyfikatorach P06, P15, P36.
+14. Identyfikatory klientów, którzy kupowali w styczniu.
+15. Identyfikatory produktów, które były sprzedawane.
+16. Wartości poszczególnych produktów, jakie mamy na stanie.
+17. Numery i daty nieopłaconych dokumentów sprzedaży zrealizowanych w lutym.
+18. Kiedy (data) pojawił się pierwszy klient.
+19. Nazwa i producent najdroższego produktu.
+20. Pełna informacja o dokumentach sprzedaży wraz z pełnymi danymi klienta.
+21. Pełny opis pozycji sprzedaży oraz jej wartość netto i brutto.
+22. Nazwy, miary i stany sprzedawanych produktów producenta Cersanit.
+23. Nazwy i miary farb i emulsji, które sprzedano w ilościach (ilosc*ilość_w_op) większych niż 10.
+24. Numery dokumentów sprzedaży, na które kupowano farby i taśmę malarską (na jednym dokumencie).
+25. Identyfikatory produktów zakupionych w okresie 15 stycznia – 15 lutego.
