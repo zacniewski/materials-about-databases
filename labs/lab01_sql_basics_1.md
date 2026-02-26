@@ -71,7 +71,7 @@ erDiagram
 ## Zadania
 Wykonaj poniższe zapytania SQL na tabelach przygotowanych w skrypcie:
 
-1. Podaj wszystkie dane o klientach (SELECT * FROM klienci).
+1. Podaj wszystkie dane o klientach.
 2. Podaj identyfikator, nazwę, producenta i cenę każdego produktu.
 3. Nazwa, cena, stan produktów producenta Cersanit.
 4. Identyfikator, nazwa, producent, cena produktów droższych niż 100.
@@ -81,18 +81,18 @@ Wykonaj poniższe zapytania SQL na tabelach przygotowanych w skrypcie:
 8. Nazwa, producent, stan produktów Malfarba i Cersanita ze stanami w granicach [200, 2000].
 9. Nazwa, miasto, rabat klientów z Gdyni lub Słupska lub z niezerowym rabatem.
 10. Identyfikator, nazwa klienta z niezerowym rabatem z Gdyni lub Gdańska.
-11. Pełna informacja o każdym produkcie oraz jego cena brutto (w tabeli przechowujemy cenę netto).
-12. Pełna informacja o nieopłaconych dokumentach sprzedaży oraz liczba dni jakie minęły od dnia sprzedaży do dziś.
-13. Numery dokumentów sprzedaży na które sprzedano produkty o identyfikatorach P06, P15, P36.
+11. Pełna informacja o każdym produkcie oraz jego cena brutto (cena * (1 + vat)).
+12. Pełna informacja o nieopłaconych dokumentach sprzedaży oraz liczba dni, jakie minęły od dnia sprzedaży do dziś.
+13. Numery dokumentów sprzedaży, na które sprzedano produkty o identyfikatorach P06, P15, P36.
 14. Identyfikatory klientów, którzy kupowali w styczniu.
-15. Identyfikatory produktów, które były sprzedawane.
-16. Wartości poszczególnych produktów, jakie mamy na stanie.
+15. Identyfikatory produktów, które były sprzedawane (tabela pozsprzedaz).
+16. Wartości poszczególnych produktów, jakie mamy na stanie (cena * stan).
 17. Numery i daty nieopłaconych dokumentów sprzedaży zrealizowanych w lutym.
-18. Kiedy (data) pojawił się pierwszy klient.
+18. Kiedy (data) pojawił się pierwszy dokument sprzedaży w bazie.
 19. Nazwa i producent najdroższego produktu.
-20. Pełna informacja o dokumentach sprzedaży wraz z pełnymi danymi klienta.
-21. Pełny opis pozycji sprzedaży oraz jej wartość netto i brutto.
-22. Nazwy, miary i stany sprzedawanych produktów producenta Cersanit.
-23. Nazwy i miary farb i emulsji, które sprzedano w ilościach (ilosc*ilość_w_op) większych niż 10.
-24. Numery dokumentów sprzedaży, na które kupowano farby i taśmę malarską (na jednym dokumencie).
-25. Identyfikatory produktów zakupionych w okresie 15 stycznia – 15 lutego.
+20. Podaj listę wszystkich miast, w których mieszkają klienci (bez powtórzeń).
+21. Wyświetl produkty, których nazwa kończy się na literę 'a'.
+22. Podaj średnią cenę produktów producenta 'Malfarb'.
+23. Wyświetl 3 najtańsze produkty.
+24. Podaj liczbę wszystkich wystawionych faktur.
+25. Wyświetl pozycje sprzedaży, w których ilość jest większa niż 10.
