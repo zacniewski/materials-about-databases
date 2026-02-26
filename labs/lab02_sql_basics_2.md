@@ -26,7 +26,7 @@ Filtrowanie danych pozwala na pobranie z bazy tylko tych rekordów, które speł
 - `IS NULL` / `IS NOT NULL` – sprawdzanie, czy kolumna zawiera wartość pustą.
 
 ### Przygotowanie środowiska
-Przed przystąpieniem do zadań należy zaimportować strukturę bazy danych i przykładowe dane:
+Zadania należy wykonywać na własnej bazie danych, której nazwa powinna być zgodna z Twoim numerem indeksu (np. `s12345`). Przed przystąpieniem do zadań należy zaimportować strukturę bazy danych i przykładowe dane:
 👉 [Skrypt SQL: lab02_computer_shop.sql](lab02_computer_shop.sql)
 
 ### Schemat bazy danych (Mermaid)
@@ -67,7 +67,71 @@ erDiagram
 
 ---
 
-### Zadania do wykonania (Filtrowanie danych)
+### Przykład startowy: Jak działa filtrowanie?
+
+Wyobraźmy sobie, że chcemy wyświetlić tylko te produkty, których cena jest wyższa niż 1500 zł. SQL wykona to w następujący sposób:
+
+1. Pobiera dane z tabeli `Produkty`.
+2. Sprawdza warunek `cena > 1500`.
+3. Zwraca tylko pasujące rekordy.
+
+```sql
+SELECT nazwa, cena 
+FROM Produkty 
+WHERE cena > 1500;
+```
+
+**Wizualizacja filtrowania:**
+
+```mermaid
+graph TD
+    A[Wszystkie produkty] --> B{cena > 1500?}
+    B -- Tak --> C[Wynik zapytania]
+    B -- Nie --> D[Odrzucone]
+```
+
+#### Jak działa `BETWEEN`?
+
+Operator `BETWEEN` służy do filtrowania danych w określonym zakresie (np. cenowym lub czasowym). Zakres ten jest domknięty, co oznacza, że wartości graniczne również są uwzględniane.
+
+```sql
+SELECT nazwa, cena 
+FROM Produkty 
+WHERE cena BETWEEN 500 AND 1500;
+```
+
+**Wizualizacja zakresu:**
+
+```mermaid
+graph LR
+    0[0] --- 500[500]
+    500 -- "BETWEEN (Włączone)" --- 1500[1500]
+    1500 --- 3000[3000+]
+    style 500 fill:#f9f,stroke:#333,stroke-width:2px
+    style 1500 fill:#f9f,stroke:#333,stroke-width:2px
+```
+
+#### Jak działa `LIKE`?
+
+Operator `LIKE` pozwala na wyszukiwanie wzorców tekstowych. Najczęściej używamy symbolu `%`, który zastępuje dowolną liczbę znaków.
+
+```sql
+-- Znajdź produkty, których nazwa zaczyna się na 'GeForce'
+SELECT * FROM Produkty 
+WHERE nazwa LIKE 'GeForce%';
+```
+
+**Wizualizacja dopasowania wzorca:**
+
+```mermaid
+graph TD
+    A[Tekst: 'GeForce RTX 3060'] --> B{Wzorzec: 'GeForce%'}
+    B -- "Dopasowano" --> C[RTX 3060 zastępuje %]
+    A2[Tekst: 'Radeon RX 6600'] --> B2{Wzorzec: 'GeForce%'}
+    B2 -- "Brak dopasowania" --> D[Odrzucono]
+```
+
+---
 
 1. Wyświetl wszystkie produkty, których cena jest wyższa niż 2000 zł.
 2. Wyświetl listę klientów, którzy mieszkają w Warszawie.
