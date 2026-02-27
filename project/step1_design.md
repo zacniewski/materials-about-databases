@@ -1,41 +1,109 @@
 # Etap 1: Projektowanie relacyjnych baz danych (2h)
 
-## Zadania na tym etapie
-1. Identyfikacja encji i atrybutów.
-2. Określenie relacji (1:1, 1:N, M:N).
-3. Stworzenie diagramu ER.
-4. Normalizacja do 3 postać normalnej.
+## Cel etapu
+Celem tego etapu jest przekształcenie wymagań biznesowych na logiczny model bazy danych, który jest spójny, wydajny i wolny od redundancji.
 
-## Model ER (Propozycja)
+## Proces projektowania
+Projektowanie bazy danych zazwyczaj przebiega w następujących krokach:
+1. **Analiza wymagań**: Zidentyfikowanie danych, które system musi przechowywać (np. "System musi przechowywać e-maile użytkowników").
+2. **Modelowanie koncepcyjne (ERD)**: Stworzenie diagramu encji i relacji (Entity-Relationship Diagram), określając powiązania między obiektami.
+3. **Modelowanie logiczne**: Mapowanie encji na tabele, określenie kluczy głównych (PK) i obcych (FK).
+4. **Normalizacja**: Sprawdzenie, czy struktura spełnia zasady postaci normalnych (zazwyczaj do 3NF).
+5. **Modelowanie fizyczne**: Dobór konkretnych typów danych (np. `VARCHAR(255)`, `NUMERIC(10,2)`) dla wybranego silnika bazy danych (PostgreSQL).
+
+## Zadania na tym etapie
+1. [ ] Identyfikacja encji i ich atrybutów.
+2. [ ] Określenie relacji między encjami (1:1, 1:N, M:N).
+3. [ ] Stworzenie diagramu ER (użyj Mermaid).
+4. [ ] Normalizacja bazy danych do 3. postaci normalnej (3NF).
+5. [ ] Wybór optymalnych typów danych dla każdej kolumny.
+
+## Normalizacja w pigułce
+
+| Postać Normalna | Zasada | Cel |
+| :--- | :--- | :--- |
+| **1NF** (Pierwsza) | Wartości w kolumnach muszą być atomowe (niepodzielne). Brak grup powtarzających się. | Eliminacja list wewnątrz pól. |
+| **2NF** (Druga) | Spełnia 1NF + wszystkie kolumny zależą od całego klucza głównego (ważne przy kluczach złożonych). | Eliminacja częściowych zależności. |
+| **3NF** (Trzecia) | Spełnia 2NF + brak zależności przechodnich (kolumna niebędąca kluczem nie zależy od innej kolumny nie-kluczowej). | Eliminacja redundancji i anomalii. |
+
+## Model ER (Propozycja dla VOD)
+
+Poniższy diagram przedstawia podstawową strukturę systemu VOD.
 
 ```mermaid
 erDiagram
-    UZYTKOWNIK ||--o{ WYPOZYCZENIE : wykonuje
-    FILM ||--o{ WYPOZYCZENIE : jest_wypozyczany
-    FILM }|--|{ GATUNEK : nalezy_do
-    FILM }|--|{ AKTOR : gra_w
+    UZYTKOWNIK ||--o{ WYPOZYCZENIE : "dokonuje"
+    FILM ||--o{ WYPOZYCZENIE : "jest przedmiotem"
+    FILM }|--|{ GATUNEK : "nalezy do"
+    FILM }|--|{ AKTOR : "występuje w"
+    
     UZYTKOWNIK {
         int id PK
-        string email
+        string email UK "Unikalny"
         string haslo
-        string subskrypcja
+        string subskrypcja "PREMIUM/FREE"
+        timestamp data_rejestracji
     }
+    
     FILM {
         int id PK
         string tytul
         int rok_produkcji
-        float cena
+        numeric cena "Cena za wypożyczenie"
+        boolean dostepny
     }
+    
     WYPOZYCZENIE {
         int id PK
         int uzytkownik_id FK
         int film_id FK
-        date data_wypozyczenia
+        timestamp data_wypozyczenia
+        timestamp data_zwrotu
+        string status "AKTYWNE/ZAKONCZONE"
+    }
+
+    GATUNEK {
+        int id PK
+        string nazwa
+    }
+
+    AKTOR {
+        int id PK
+        string imie
+        string nazwisko
     }
 ```
 
-## Wytyczne projektowe
-- Każda tabela musi mieć klucz główny (`PRIMARY KEY`).
-- Relacje wiele-do-wielu (np. Film-Aktor) muszą być zrealizowane za pomocą tabel łączących.
-- Stosuj typy danych PostgreSQL: `VARCHAR(n)`/`TEXT`, `INTEGER`/`BIGINT`, `NUMERIC(precision, scale)` dla wartości pieniężnych, `DATE`, `TIMESTAMP`.
-- Klucze sztuczne: `SERIAL` lub `GENERATED ALWAYS AS IDENTITY` (preferowane w nowych projektach).
+### Cykl życia wypożyczenia (Diagram Stanów)
+Zrozumienie stanów obiektu pomaga w projektowaniu logiki biznesowej (Etap 2).
+
+```mermaid
+stateDiagram-v2
+    [*] --> NOWE: Użytkownik klika "Wypożycz"
+    NOWE --> AKTYWNE: Płatność zatwierdzona
+    NOWE --> ANULOWANE: Brak środków / Rezygnacja
+    AKTYWNE --> ZAKONCZONE: Czas wygasł / Zwrot
+    AKTYWNE --> ZALEGLE: Brak zwrotu w terminie
+    ZALEGLE --> ZAKONCZONE: Uregulowanie kary
+    ZAKONCZONE --> [*]
+```
+
+## Wybór typów danych (PostgreSQL)
+
+| Kategoria | Rekomendowany typ | Zastosowanie |
+| :--- | :--- | :--- |
+| **Identyfikatory** | `INT GENERATED ALWAYS AS IDENTITY` | Klucze główne (nowoczesny standard). |
+| **Tekst krótki** | `VARCHAR(n)` | E-maile, nazwy, kody (z ograniczeniem długości). |
+| **Tekst długi** | `TEXT` | Opisy filmów, recenzje (brak sztywnego limitu). |
+| **Finanse** | `NUMERIC(precision, scale)` | Ceny, pensje (dokładność dziesiętna). |
+| **Czas** | `TIMESTAMP` lub `TIMESTAMPTZ` | Daty operacji (z uwzględnieniem stref czasowych). |
+| **Logika** | `BOOLEAN` | Flagi (np. `czy_aktywny`, `dostepny`). |
+
+## Lista kontrolna projektu (Checklist)
+Przed przejściem do implementacji (Etap 3), sprawdź czy Twój projekt spełnia poniższe kryteria:
+- [ ] Czy każda tabela posiada **Klucz Główny** (PK)?
+- [ ] Czy relacje **Wiele-do-Wielu** są zrealizowane przez tabele łączące (np. `film_aktor`)?
+- [ ] Czy nazwy tabel i kolumn są spójne (np. wszystko w liczbie pojedynczej, małe litery, `snake_case`)?
+- [ ] Czy unikasz przechowywania danych wyliczanych (np. `liczba_wypozyczen` - to lepiej policzyć zapytaniem)?
+- [ ] Czy typy danych są optymalne (np. nie używasz `TEXT` tam, gdzie wystarczy `CHAR(3)`)?
+- [ ] Czy zdefiniowałeś więzy integralności (`NOT NULL`, `UNIQUE`, `CHECK`)?
