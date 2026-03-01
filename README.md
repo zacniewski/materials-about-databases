@@ -35,6 +35,7 @@ Dla obu części przedmiotu (laboratoria i projekt) obowiązuje poniższa skala 
 | 91% – 100% | 5.0 (bdb) |
 
 ## Narzędzia
+- **Konfiguracja bazy danych:** [Instrukcja importu plików .sql](./labs/db_setup_guide.md)
 - **Baza danych (główna):** PostgreSQL
 - **Klient:** psql lub pgAdmin
 - **Alternatywnie (opcjonalnie):** SQLite + DB Browser for SQLite
