@@ -148,6 +148,16 @@ FROM Druzyny D
 FULL JOIN Stadiony S ON D.id_stadionu = S.id;
 ```
 
+**Wizualizacja `FULL JOIN`:**
+
+```mermaid
+graph LR
+    D[Druzyny - Wszystkie] --- S[Stadiony - Wszystkie]
+    subgraph Wynik
+    R[Wszystkie Dane z Obu Tabel]
+    end
+```
+
 #### Jak działa `GROUP BY`?
 
 Grupowanie pozwala na policzenie rekordów (np. ilu piłkarzy gra w każdej drużynie).

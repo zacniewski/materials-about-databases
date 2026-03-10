@@ -100,7 +100,28 @@ Po użyciu: [Google](https://www.google.com)
 |    Wartość A    |    Wartość B    |
 |    Wartość C    |    Wartość D    |
 
-## 6. Eksport do PDF
+## 6. Diagramy Mermaid
+
+W dokumentacji używamy narzędzia **Mermaid** do tworzenia diagramów (np. schematów blokowych, diagramów ER). 
+
+Aby diagram został poprawnie wyświetlony:
+- Kod diagramu musi znajdować się w bloku oznaczonym jako `mermaid`.
+- Upewnij się, że Twój edytor lub przeglądarka wspiera renderowanie Mermaid (np. rozszerzenie **Mermaid Diagram Carousel** w Chrome, lub wbudowane wsparcie w IntelliJ/PyCharm/VS Code).
+
+Przykład:
+```mermaid
+graph TD
+    A[Start] --> B{Decyzja}
+    B -- Tak --> C[Wynik 1]
+    B -- Nie --> D[Wynik 2]
+```
+
+## 7. Eksport do PDF
+
+**Ważne (Mermaid):** Nie wszystkie generatory PDF (np. wbudowany w IntelliJ) domyślnie renderują diagramy Mermaid bezpośrednio do PDF. Jeśli po eksporcie do PDF zamiast obrazka widzisz kod Mermaid:
+1. Zainstaluj rozszerzenie obsługujące Mermaid w swoim IDE (np. **Mermaid** w JetBrains).
+2. Wyeksportuj dokument najpierw do formatu **HTML**, otwórz go w przeglądarce i wydrukuj do PDF lub skorzystaj z profesjonalnych generatorów online.
+
 ### Narzędzia JetBrains (IntelliJ, PyCharm, DataGrip)
 Aby przekonwertować plik Markdown na format PDF za pomocą środowisk IDE od JetBrains:
 
