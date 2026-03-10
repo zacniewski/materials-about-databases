@@ -1,16 +1,20 @@
 ### Laboratorium 3: Łączenie tabel i funkcje agregujące.
 
 ### Cel laboratorium
-Celem zajęć jest opanowanie umiejętności łączenia danych z wielu tabel za pomocą operatora `INNER JOIN` oraz wykonywania obliczeń na grupach rekordów przy użyciu funkcji agregujących (`COUNT`, `SUM`, `AVG`, `MIN`, `MAX`) wraz z klauzulami `GROUP BY` i `HAVING`.
+Celem zajęć jest opanowanie umiejętności łączenia danych z wielu tabel za pomocą operatorów `JOIN` oraz wykonywania obliczeń na grupach rekordów przy użyciu funkcji agregujących (`COUNT`, `SUM`, `AVG`, `MIN`, `MAX`) wraz z klauzulami `GROUP BY` i `HAVING`.
 
 ### Podstawy teoretyczne
 
-#### 1. Łączenie tabel (INNER JOIN)
-Łączenie wewnętrzne pozwala na zestawienie wierszy z dwóch lub więcej tabel na podstawie wspólnej kolumny (zazwyczaj klucza obcego i klucza głównego).
+#### 1. Łączenie tabel (JOIN)
+- `INNER JOIN` – zwraca tylko te wiersze, które mają dopasowanie w obu tabelach.
+- `LEFT JOIN` – zwraca wszystkie wiersze z lewej tabeli oraz dopasowane wiersze z prawej tabeli. Jeśli nie ma dopasowania, zwraca `NULL` dla kolumn z prawej tabeli.
+- `RIGHT JOIN` – zwraca wszystkie wiersze z prawej tabeli oraz dopasowane wiersze z lewej tabeli. Jeśli nie ma dopasowania, zwraca `NULL` dla kolumn z lewej tabeli.
+- `FULL JOIN` – zwraca wszystkie wiersze, gdy istnieje dopasowanie w jednej z tabel.
+
 ```sql
 SELECT kolumny
 FROM TabelaA
-INNER JOIN TabelaB ON TabelaA.klucz_obcy = TabelaB.id;
+INNER | LEFT | RIGHT | FULL JOIN TabelaB ON TabelaA.klucz_obcy = TabelaB.id;
 ```
 
 #### 2. Funkcje agregujące
@@ -75,7 +79,7 @@ erDiagram
 
 #### Jak działa `INNER JOIN`?
 
-Łącząc tabele `Pilkarze` i `Druzyny`, SQL dopasowuje `id_druzyny` z tabeli `Pilkarze` do `id` z tabeli `Druzyny`.
+Łącząc tabele `Pilkarze` i `Druzyny`, SQL dopasowuje `id_druzyny` z tabeli `Pilkarze` do `id` z tabeli `Druzyny`. Zwraca tylko tych piłkarzy, którzy mają przypisaną drużynę oraz tylko te drużyny, które mają piłkarzy.
 
 ```sql
 SELECT Pilkarze.nazwisko, Druzyny.nazwa 
@@ -92,6 +96,56 @@ graph LR
     subgraph Wynik
     R[Nazwisko + Nazwa Drużyny]
     end
+```
+
+#### Jak działa `LEFT JOIN`?
+
+Zwraca wszystkich piłkarzy, nawet jeśli nie mają przypisanej drużyny. W naszej bazie każdy piłkarz ma drużynę, więc spróbujmy w drugą stronę: wyświetlmy wszystkie drużyny i ich piłkarzy. Drużyny bez piłkarzy (np. 'Podbeskidzie') również pojawią się na liście, ale z wartością `NULL` w kolumnach piłkarza.
+
+```sql
+SELECT D.nazwa AS nazwa_druzyny, P.nazwisko
+FROM Druzyny D
+LEFT JOIN Pilkarze P ON D.id = P.id_druzyny;
+```
+
+**Wizualizacja `LEFT JOIN`:**
+
+```mermaid
+graph LR
+    D[Druzyny - Wszystkie] -- id --> P[Pilkarze - Tylko pasujący]
+    subgraph Wynik
+    R[Wszystkie Drużyny + Nazwisko lub NULL]
+    end
+```
+
+#### Jak działa `RIGHT JOIN`?
+
+Zwraca wszystkie rekordy z "prawej" tabeli. Przykład: wyświetlmy wszystkie stadiony i drużyny, które mają tam swoją siedzibę. Stadion Narodowy nie jest siedzibą żadnej drużyny w naszej bazie, więc przy `INNER JOIN` by nie wystąpił, ale przy `RIGHT JOIN` na tabelę `Stadiony` zostanie wyświetlony.
+
+```sql
+SELECT D.nazwa AS nazwa_druzyny, S.nazwa AS nazwa_stadionu
+FROM Druzyny D
+RIGHT JOIN Stadiony S ON D.id_stadionu = S.id;
+```
+
+**Wizualizacja `RIGHT JOIN`:**
+
+```mermaid
+graph LR
+    D[Druzyny - Tylko pasujące] -- id_stadionu --> S[Stadiony - Wszystkie]
+    subgraph Wynik
+    R[Nazwa Drużyny lub NULL + Wszystkie Stadiony]
+    end
+```
+
+#### Jak działa `FULL JOIN`?
+
+Łączy cechy `LEFT JOIN` i `RIGHT JOIN`. Zwraca wszystkie rekordy z obu tabel, uzupełniając brakujące dopasowania wartościami `NULL`.
+
+```sql
+SELECT D.nazwa AS nazwa_druzyny, S.nazwa AS nazwa_stadionu
+FROM Druzyny D
+FULL JOIN Stadiony S ON D.id_stadionu = S.id;
 ```
 
 #### Jak działa `GROUP BY`?
@@ -177,3 +231,6 @@ graph LR
 13. Wyświetl imiona i nazwiska piłkarzy grających na pozycji 'Napastnik' wraz z nazwą ich drużyny.
 14. Znajdź drużyny założone przed 1920 rokiem i policz ich piłkarzy.
 15. Wyświetl nazwę stadionu i jego miasto dla wszystkich meczów, w których padł remis (bramki gospodarza = bramki gościa).
+16. Wyświetl wszystkie stadiony oraz nazwy drużyn, które mają na nich swoją siedzibę (użyj `LEFT JOIN`, aby uwzględnić stadiony bez drużyn).
+17. Wyświetl wszystkie drużyny oraz nazwiska ich piłkarzy (użyj `LEFT JOIN`, aby uwzględnić drużyny bez piłkarzy).
+18. Wyświetl listę wszystkich miast z tabeli `Stadiony` oraz odpowiadające im drużyny z tych miast, używając `FULL JOIN`.
