@@ -4,6 +4,50 @@
 
 Poniższe zadania opierają się na strukturze bazy danych zawartej w pliku `lab04_employees.sql`. Twoim zadaniem jest napisanie zapytań SQL, które zwrócą wymagane dane.
 
+
+### Diagram relacji (Mermaid)
+Poniższy diagram przedstawia znormalizowaną strukturę bazy danych pracowników (3NF):
+
+```mermaid
+erDiagram
+    LOCATIONS ||--o{ DEPARTMENTS : contains
+    DEPARTMENTS ||--o{ EMPLOYEES : has
+    EMPLOYEES ||--o{ EMPLOYEE_PROJECTS : works_on
+    PROJECTS ||--o{ EMPLOYEE_PROJECTS : involves
+    
+    LOCATIONS {
+        int location_id PK
+        string city
+        string country
+    }
+    DEPARTMENTS {
+        int department_id PK
+        string department_name
+        int location_id FK
+    }
+    EMPLOYEES {
+        int employee_id PK
+        string first_name
+        string last_name
+        string email
+        date hire_date
+        decimal salary
+        int department_id FK
+    }
+    PROJECTS {
+        int project_id PK
+        string project_name
+        decimal budget
+    }
+    EMPLOYEE_PROJECTS {
+        int employee_id FK
+        int project_id FK
+        string role
+        int hours_per_week
+    }
+```
+
+
 ### Podstawy SELECT i filtrowanie (Lab 1 & Lab 2)
 
 1. Wyświetl imiona i nazwiska wszystkich pracowników posortowane alfabetycznie według nazwiska.
