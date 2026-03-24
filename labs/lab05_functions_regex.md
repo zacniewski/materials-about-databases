@@ -228,8 +228,8 @@ erDiagram
    *(Podpowiedź: Odejmij `rocznik` od roku wyciągniętego z `data_sprzedazy`)*
 10. Wyświetl daty sprzedaży w formacie `DD-MM-YYYY` (skorzystaj z odpowiedniej funkcji formatującej dla Twojego silnika bazy danych).
     *(Podpowiedź: W PostgreSQL użyj `TO_CHAR`, w SQLite `strftime`)*
-11. Wyświetl listę samochodów, które zostały sprzedane w ciągu ostatnich 30 dni od dzisiaj (użyj `CURRENT_DATE`).
-    *(Podpowiedź: Odejmij `INTERVAL '30 days'` od `CURRENT_DATE`)*
+11. Wyświetl listę samochodów, które zostały sprzedane w ciągu ostatnich 850 dni od dzisiaj (użyj `CURRENT_DATE`).
+    *(Podpowiedź: Odejmij `INTERVAL '850 days'` od `CURRENT_DATE`)*
 
 ### Operacje zbiorowe
 12. Stwórz listę unikalnych nazw miast, w których mieszkają klienci, oraz krajów, z których pochodzą producenci (użyj `UNION`).
