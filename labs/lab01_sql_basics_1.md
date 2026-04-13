@@ -1,14 +1,17 @@
 # Laboratorium 1: Podstawy SQL - Zapytania SELECT (Baza Rembud)
 
 ## Cel laboratorium
+
 Opanowanie umiejętności pobierania danych z bazy danych przy użyciu polecenia `SELECT`, filtrowania wyników, sortowania oraz ograniczania liczby rekordów.
 
 ## Podstawy teoretyczne
 
 ### DQL (Data Query Language)
+
 Służy do pobierania (odczytywania) danych z bazy. Głównym poleceniem jest `SELECT`.
 
 #### Składnia polecenia SELECT:
+
 - `SELECT` – wybiera określone kolumny (użyj `*` dla wszystkich).
 - `FROM` – wskazuje tabelę.
 - `WHERE` – filtruje rekordy (np. `cena > 100`).
@@ -17,13 +20,16 @@ Służy do pobierania (odczytywania) danych z bazy. Głównym poleceniem jest `S
 - `DISTINCT` – usuwa duplikaty z wyników.
 
 ### Przygotowanie środowiska
+
 Baza `rembud` ma być używana w pewnym dużym sklepie z materiałami remontowo-budowlanymi. Dozwolone są jedynie operacje wyszukiwania danych (SELECT).
 
 Przed przystąpieniem do zadań należy zaimportować strukturę bazy danych i przykładowe dane:
 👉 [Skrypt SQL: lab01_rembudSQL.sql](lab01_rembudSQL.sql)
 
 ## Schemat bazy danych (Mermaid)
+
 Przeznaczenie tabel:
+
 - **klienci** – podstawowe dane klientów sklepu (drobni przedsiębiorcy, rabaty itp.).
 - **produkty** – dane o produktach sklepu.
 - **nagsprzedaz** – nagłówki sprzedaży (faktury).
@@ -34,7 +40,7 @@ erDiagram
     klienci ||--o{ nagsprzedaz : "posiada"
     nagsprzedaz ||--|{ pozsprzedaz : "zawiera"
     produkty ||--o{ pozsprzedaz : "jest w pozycji"
-    
+
     klienci {
         character idklienta PK
         varchar nazwa
@@ -69,30 +75,31 @@ erDiagram
 ```
 
 ## Zadania
+
 Wykonaj poniższe zapytania SQL na tabelach przygotowanych w skrypcie:
 
 1. Podaj wszystkie dane o klientach.
-2. Podaj identyfikator, nazwę, producenta i cenę każdego produktu.
-3. Nazwa, cena, stan produktów producenta Cersanit.
-4. Identyfikator, nazwa, producent, cena produktów droższych niż 100.
-5. Numer faktury, id klienta, data dokumentów sprzedaży z okresu 15 – 25 stycznia.
-6. Nazwa, cena, miara i stan lakierów.
-7. Identyfikator, nazwa, adres klientów z Gdyni i Sopotu.
-8. Nazwa, producent, stan produktów Malfarba i Cersanita ze stanami w granicach [200, 2000].
-9. Nazwa, miasto, rabat klientów z Gdyni lub Słupska lub z niezerowym rabatem.
-10. Identyfikator, nazwa klienta z niezerowym rabatem z Gdyni lub Gdańska.
-11. Pełna informacja o każdym produkcie oraz jego cena brutto (cena * (1 + vat)).
-12. Pełna informacja o nieopłaconych dokumentach sprzedaży oraz liczba dni, jakie minęły od dnia sprzedaży do dziś.
-13. Numery dokumentów sprzedaży, na które sprzedano produkty o identyfikatorach P06, P15, P36.
-14. Identyfikatory klientów, którzy kupowali w styczniu.
-15. Identyfikatory produktów, które były sprzedawane (tabela pozsprzedaz).
-16. Wartości poszczególnych produktów, jakie mamy na stanie (cena * stan).
-17. Numery i daty nieopłaconych dokumentów sprzedaży zrealizowanych w lutym.
-18. Kiedy (data) pojawił się pierwszy dokument sprzedaży w bazie.
-19. Nazwa i producent najdroższego produktu.
-20. Podaj listę wszystkich miast, w których mieszkają klienci (bez powtórzeń).
-21. Wyświetl produkty, których nazwa kończy się na literę 'a'.
-22. Podaj średnią cenę produktów producenta 'Malfarb'.
-23. Wyświetl 3 najtańsze produkty.
-24. Podaj liczbę wszystkich wystawionych faktur.
-25. Wyświetl pozycje sprzedaży, w których ilość jest większa niż 10.
+1. Podaj identyfikator, nazwę, producenta i cenę każdego produktu.
+1. Nazwa, cena, stan produktów producenta Cersanit.
+1. Identyfikator, nazwa, producent, cena produktów droższych niż 100.
+1. Numer faktury, id klienta, data dokumentów sprzedaży z okresu 15 – 25 stycznia.
+1. Nazwa, cena, miara i stan lakierów.
+1. Identyfikator, nazwa, adres klientów z Gdyni i Sopotu.
+1. Nazwa, producent, stan produktów Malfarba i Cersanita ze stanami w granicach [200, 2000].
+1. Nazwa, miasto, rabat klientów z Gdyni lub Słupska lub z niezerowym rabatem.
+1. Identyfikator, nazwa klienta z niezerowym rabatem z Gdyni lub Gdańska.
+1. Pełna informacja o każdym produkcie oraz jego cena brutto (cena * (1 + vat)).
+1. Pełna informacja o nieopłaconych dokumentach sprzedaży oraz liczba dni, jakie minęły od dnia sprzedaży do dziś.
+1. Numery dokumentów sprzedaży, na które sprzedano produkty o identyfikatorach P06, P15, P36.
+1. Identyfikatory klientów, którzy kupowali w styczniu.
+1. Identyfikatory produktów, które były sprzedawane (tabela pozsprzedaz).
+1. Wartości poszczególnych produktów, jakie mamy na stanie (cena * stan).
+1. Numery i daty nieopłaconych dokumentów sprzedaży zrealizowanych w lutym.
+1. Kiedy (data) pojawił się pierwszy dokument sprzedaży w bazie.
+1. Nazwa i producent najdroższego produktu.
+1. Podaj listę wszystkich miast, w których mieszkają klienci (bez powtórzeń).
+1. Wyświetl produkty, których nazwa kończy się na literę 'a'.
+1. Podaj średnią cenę produktów producenta 'Malfarb'.
+1. Wyświetl 3 najtańsze produkty.
+1. Podaj liczbę wszystkich wystawionych faktur.
+1. Wyświetl pozycje sprzedaży, w których ilość jest większa niż 10.

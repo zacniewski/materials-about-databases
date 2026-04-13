@@ -284,5 +284,3 @@ INSERT INTO public.produkty (idproduktu, nazwa, cena, vat, ilosc_w_op, miara, pr
 INSERT INTO public.produkty (idproduktu, nazwa, cena, vat, ilosc_w_op, miara, producent, stan) VALUES ('P35  ', 'Kątownik 5 cm', 10.00, 0.23, 2.00, 'metr', 'Listal', 100.00);
 INSERT INTO public.produkty (idproduktu, nazwa, cena, vat, ilosc_w_op, miara, producent, stan) VALUES ('P36  ', 'Kątownik 4 cm', 8.80, 0.23, 2.50, 'metr', 'Listal', 28.00);
 INSERT INTO public.produkty (idproduktu, nazwa, cena, vat, ilosc_w_op, miara, producent, stan) VALUES ('P50  ', 'cudak równie drogi', 367.00, 0.23, 1.00, 'szt', 'Stanley', 100.00);
-
-
