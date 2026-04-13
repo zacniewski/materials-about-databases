@@ -1,4 +1,4 @@
-# Laboratorium 6: Podzapytania w SQL
+# Laboratorium 8: Podzapytania w SQL
 
 ## Cel laboratorium
 
@@ -62,7 +62,7 @@ erDiagram
 
 ## Zadania do wykonania
 
-Baza danych znajduje się w pliku `lab06_students.sql`.
+Baza danych znajduje się w pliku `lab08_students.sql`.
 
 1. Wyświetl imiona i nazwiska studentów, którzy studiują na tym samym kierunku co 'Jan Kowalski' (wyklucz Jana Kowalskiego z listy).
 1. Znajdź przedmioty, które mają liczbę punktów ECTS większą niż średnia liczba punktów ECTS wszystkich przedmiotów.

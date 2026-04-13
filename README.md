@@ -11,9 +11,9 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 16 god
 1. [Laboratorium 3: SQL - Łączenie tabel i funkcje agregujące](./labs/lab03_joins_aggregation.md) - 2h
 1. [Laboratorium 4: Normalizacja – relacje bazodanowe](./labs/lab04_normalization.md) - 2h
 1. [Laboratorium 5: SQL - Funkcje, operacje na zbiorach i wyrażenia regularne](./labs/lab05_functions_regex.md) - 2h
-1. [Laboratorium 6: Podzapytania w SQL](./labs/lab06_subqueries.md) - 2h
+1. [Laboratorium 6: Funkcje w SQL](./labs/lab06_functions.md) - 2h
 1. [Laboratorium 7: Widoki (perspektywy) i grupowanie w SQL](./labs/lab07_views_grouping.md) - 2h
-1. [Laboratorium 8: Funkcje w SQL](./labs/lab08_functions.md) - 2h
+1. [Laboratorium 8: Podzapytania w SQL](./labs/lab08_subqueries.md) - 2h
 1. **Kolokwium podsumowujące (2h)** - Sprawdzian wiedzy teoretycznej i praktycznej.
 
 ### [Projekt (12h)](./project/)

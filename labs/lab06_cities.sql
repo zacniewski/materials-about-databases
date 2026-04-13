@@ -1,4 +1,4 @@
--- Tworzenie bazy danych dla laboratorium 8: Funkcje w SQL
+-- Tworzenie bazy danych dla laboratorium 6: Funkcje w SQL
 -- Temat: Miasta świata
 
 DROP TABLE IF EXISTS miasta;

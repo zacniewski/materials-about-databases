@@ -1,4 +1,4 @@
--- Plik z danymi do Laboratorium 6: Podzapytania w SQL
+-- Plik z danymi do Laboratorium 8: Podzapytania w SQL
 -- Temat: System zarządzania studentami
 
 -- Usuwanie tabel jeśli istnieją (w celu idempotentności)
