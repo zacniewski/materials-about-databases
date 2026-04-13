@@ -65,11 +65,27 @@ Umożliwiają pracę z typami czasowymi.
 - `EXTRACT(field FROM source)` - pobranie części daty (np. `YEAR`, `MONTH`, `DAY`).
 - `AGE(timestamp)` - oblicza różnicę czasu od teraz do podanej daty.
 
-### 4. Funkcje definiowane przez użytkownika (UDF)
+### 4. Instrukcja CASE WHEN
 
-W PostgreSQL funkcje tworzy się za pomocą polecenia `CREATE FUNCTION`.
+Pozwala na stosowanie logiki warunkowej wewnątrz zapytania SQL, co jest odpowiednikiem konstrukcji if-else w językach programowania.
 
-**Przykład 1:** Funkcja przeliczająca populację na miliony z dopiskiem jednostki:
+**Przykład:**
+
+```sql
+SELECT nazwa_miasta,
+       CASE
+           WHEN liczba_mieszkancow > 1000000 THEN 'Metropolia'
+           WHEN liczba_mieszkancow > 500000 THEN 'Duże miasto'
+           ELSE 'Mniejsze miasto'
+       END AS kategoria_miasta
+FROM miasta;
+```
+
+### 5. Funkcje definiowane przez użytkownika (UDF)
+
+W PostgreSQL funkcje tworzy się za pomocą polecenia `CREATE FUNCTION`. Jeśli funkcja korzysta ze zmiennych lokalnych, należy użyć sekcji `DECLARE` przed blokiem `BEGIN ... END`.
+
+**Przykład 1:** Funkcja przeliczająca populację na miliony z dopiskiem jednostki (prosta funkcja bez zmiennych):
 
 ```sql
 CREATE OR REPLACE FUNCTION formatuj_populacje(populacja numeric)
@@ -80,16 +96,19 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-**Przykład 2:** Funkcja obliczająca gęstość zaludnienia (osób na km²):
+**Przykład 2:** Funkcja obliczająca gęstość zaludnienia z użyciem sekcji `DECLARE` dla zmiennej pomocniczej:
 
 ```sql
 CREATE OR REPLACE FUNCTION gestosc_zaludnienia(populacja_mln numeric, powierzchnia numeric)
 RETURNS numeric AS $$
+DECLARE
+    wynik numeric;
 BEGIN
     IF powierzchnia = 0 THEN
         RETURN 0;
     END IF;
-    RETURN (populacja_mln * 1000000) / powierzchnia;
+    wynik := (populacja_mln * 1000000) / powierzchnia;
+    RETURN wynik;
 END;
 $$ LANGUAGE plpgsql;
 ```
