@@ -1,7 +1,7 @@
 -- Plik z danymi do Laboratorium 7: Grupowanie i podzapytania w SQL
 -- Temat: System zarządzania studentami
 
--- Usuwanie tabel jeśli istnieją (w celu idempotentności)
+-- Usuwanie tabel, jeśli istnieją (w celu idempotentności)
 DROP TABLE IF EXISTS Oceny CASCADE;
 DROP TABLE IF EXISTS Przedmioty CASCADE;
 DROP TABLE IF EXISTS Studenci CASCADE;
