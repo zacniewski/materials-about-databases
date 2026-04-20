@@ -1,4 +1,5 @@
--- Tworzenie bazy danych dla laboratorium 6: Funkcje w SQL
+-- Tworzenie bazy danych dla laboratorium 6:
+-- Funkcje w SQL
 -- Temat: Miasta świata
 
 DROP TABLE IF EXISTS miasta;
@@ -15,7 +16,7 @@ CREATE TABLE kraje (
     id_kraju SERIAL PRIMARY KEY,
     nazwa_kraju VARCHAR(100) NOT NULL,
     kod_kraju CHAR(3) UNIQUE,
-    id_kontynentu INTEGER REFERENCES kontynenty(id_kontynentu),
+    id_kontynentu INTEGER REFERENCES kontynenty (id_kontynentu),
     populacja_mln DECIMAL(10, 2),
     waluta VARCHAR(50)
 );
@@ -23,13 +24,14 @@ CREATE TABLE kraje (
 CREATE TABLE miasta (
     id_miasta SERIAL PRIMARY KEY,
     nazwa_miasta VARCHAR(100) NOT NULL,
-    id_kraju INTEGER REFERENCES kraje(id_kraju),
+    id_kraju INTEGER REFERENCES kraje (id_kraju),
     liczba_mieszkancow INTEGER,
     czy_stolica BOOLEAN DEFAULT FALSE,
     data_założenia DATE
 );
 
--- Wstawianie 20 rekordów do tabeli kontynenty (uproszczone o regiony, aby dobić do 20)
+-- Wstawianie 20 rekordów do tabeli kontynenty
+-- (uproszczone o regiony, aby dobić do 20)
 INSERT INTO kontynenty (nazwa_kontynentu, powierzchnia_mln_km2) VALUES
 ('Europa', 10.18),
 ('Azja', 44.58),
@@ -54,7 +56,9 @@ INSERT INTO kontynenty (nazwa_kontynentu, powierzchnia_mln_km2) VALUES
 ('Azja Środkowa', 4.00);
 
 -- Wstawianie 20 rekordów do tabeli kraje
-INSERT INTO kraje (nazwa_kraju, kod_kraju, id_kontynentu, populacja_mln, waluta) VALUES
+INSERT INTO kraje (
+    nazwa_kraju, kod_kraju, id_kontynentu, populacja_mln, waluta
+) VALUES
 ('Polska', 'POL', 1, 38.0, 'PLN'),
 ('Niemcy', 'DEU', 1, 83.0, 'EUR'),
 ('Francja', 'FRA', 1, 67.0, 'EUR'),
@@ -77,7 +81,9 @@ INSERT INTO kraje (nazwa_kraju, kod_kraju, id_kontynentu, populacja_mln, waluta)
 ('Turcja', 'TUR', 8, 84.0, 'TRY');
 
 -- Wstawianie 20 rekordów do tabeli miasta
-INSERT INTO miasta (nazwa_miasta, id_kraju, liczba_mieszkancow, czy_stolica, data_założenia) VALUES
+INSERT INTO miasta (
+    nazwa_miasta, id_kraju, liczba_mieszkancow, czy_stolica, data_założenia
+) VALUES
 ('Warszawa', 1, 1790000, TRUE, '1300-01-01'),
 ('Kraków', 1, 780000, FALSE, '1257-06-05'),
 ('Berlin', 2, 3645000, TRUE, '1237-01-01'),

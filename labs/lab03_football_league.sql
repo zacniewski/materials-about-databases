@@ -4,44 +4,44 @@
 
 -- 1. Stadiony
 CREATE TABLE Stadiony (
-    id SERIAL PRIMARY KEY,
-    nazwa VARCHAR(100) NOT NULL,
-    miasto VARCHAR(100) NOT NULL,
-    pojemnosc INTEGER NOT NULL
+    Id SERIAL PRIMARY KEY,
+    Nazwa VARCHAR(100) NOT NULL,
+    Miasto VARCHAR(100) NOT NULL,
+    Pojemnosc INTEGER NOT NULL
 );
 
 -- 2. Druzyny
 CREATE TABLE Druzyny (
-    id SERIAL PRIMARY KEY,
-    nazwa VARCHAR(100) NOT NULL,
-    miasto VARCHAR(100) NOT NULL,
-    rok_zalozenia INTEGER,
-    id_stadionu INTEGER REFERENCES Stadiony(id)
+    Id SERIAL PRIMARY KEY,
+    Nazwa VARCHAR(100) NOT NULL,
+    Miasto VARCHAR(100) NOT NULL,
+    Rok_zalozenia INTEGER,
+    Id_stadionu INTEGER REFERENCES Stadiony (Id)
 );
 
 -- 3. Pilkarze
 CREATE TABLE Pilkarze (
-    id SERIAL PRIMARY KEY,
-    imie VARCHAR(50) NOT NULL,
-    nazwisko VARCHAR(50) NOT NULL,
-    pozycja VARCHAR(50),
-    wynagrodzenie NUMERIC(10, 2),
-    id_druzyny INTEGER REFERENCES Druzyny(id)
+    Id SERIAL PRIMARY KEY,
+    Imie VARCHAR(50) NOT NULL,
+    Nazwisko VARCHAR(50) NOT NULL,
+    Pozycja VARCHAR(50),
+    Wynagrodzenie NUMERIC(10, 2),
+    Id_druzyny INTEGER REFERENCES Druzyny (Id)
 );
 
 -- 4. Mecze
 CREATE TABLE Mecze (
-    id SERIAL PRIMARY KEY,
-    id_gospodarza INTEGER REFERENCES Druzyny(id),
-    id_goscia INTEGER REFERENCES Druzyny(id),
-    id_stadionu INTEGER REFERENCES Stadiony(id),
-    data_meczu DATE NOT NULL,
-    bramki_gospodarza INTEGER DEFAULT 0,
-    bramki_goscia INTEGER DEFAULT 0
+    Id SERIAL PRIMARY KEY,
+    Id_gospodarza INTEGER REFERENCES Druzyny (Id),
+    Id_goscia INTEGER REFERENCES Druzyny (Id),
+    Id_stadionu INTEGER REFERENCES Stadiony (Id),
+    Data_meczu DATE NOT NULL,
+    Bramki_gospodarza INTEGER DEFAULT 0,
+    Bramki_goscia INTEGER DEFAULT 0
 );
 
 -- Dane dla Stadiony (20 rekordów)
-INSERT INTO Stadiony (nazwa, miasto, pojemnosc) VALUES
+INSERT INTO Stadiony (Nazwa, Miasto, Pojemnosc) VALUES
 ('Stadion Narodowy', 'Warszawa', 58580),
 ('Polsat Plus Arena', 'Gdańsk', 41620),
 ('Stadion Miejski we Wrocławiu', 'Wrocław', 45105),
@@ -64,7 +64,7 @@ INSERT INTO Stadiony (nazwa, miasto, pojemnosc) VALUES
 ('Stadion Ruchu Chorzów', 'Chorzów', 9300);
 
 -- Dane dla Druzyny (20 rekordów)
-INSERT INTO Druzyny (nazwa, miasto, rok_zalozenia, id_stadionu) VALUES
+INSERT INTO Druzyny (Nazwa, Miasto, Rok_zalozenia, Id_stadionu) VALUES
 ('Legia Warszawa', 'Warszawa', 1916, 5),
 ('Lech Poznań', 'Poznań', 1922, 4),
 ('Raków Częstochowa', 'Częstochowa', 1921, 19),
@@ -87,7 +87,7 @@ INSERT INTO Druzyny (nazwa, miasto, rok_zalozenia, id_stadionu) VALUES
 ('Podbeskidzie', 'Bielsko-Biała', 1997, 16);
 
 -- Dane dla Pilkarze (20 rekordów)
-INSERT INTO Pilkarze (imie, nazwisko, pozycja, wynagrodzenie, id_druzyny) VALUES
+INSERT INTO Pilkarze (Imie, Nazwisko, Pozycja, Wynagrodzenie, Id_druzyny) VALUES
 ('Robert', 'Lewandowski', 'Napastnik', 50000.00, 1),
 ('Piotr', 'Zieliński', 'Pomocnik', 45000.00, 2),
 ('Wojciech', 'Szczęsny', 'Bramkarz', 48000.00, 3),
@@ -110,7 +110,14 @@ INSERT INTO Pilkarze (imie, nazwisko, pozycja, wynagrodzenie, id_druzyny) VALUES
 ('Kamil', 'Grosicki', 'Pomocnik', 36000.00, 4);
 
 -- Dane dla Mecze (20 rekordów)
-INSERT INTO Mecze (id_gospodarza, id_goscia, id_stadionu, data_meczu, bramki_gospodarza, bramki_goscia) VALUES
+INSERT INTO Mecze (
+    Id_gospodarza,
+    Id_goscia,
+    Id_stadionu,
+    Data_meczu,
+    Bramki_gospodarza,
+    Bramki_goscia
+) VALUES
 (1, 2, 5, '2023-09-01', 2, 1),
 (3, 4, 19, '2023-09-02', 1, 1),
 (5, 6, 8, '2023-09-03', 0, 2),

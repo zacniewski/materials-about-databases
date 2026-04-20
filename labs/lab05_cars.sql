@@ -1,4 +1,5 @@
--- SQL Script for Laboratorium 5: Funkcje, operacje na zbiorach i integralność danych
+-- SQL Script for Laboratorium 5:
+-- Funkcje, operacje na zbiorach i integralność danych
 -- Temat: System sprzedaży samochodów
 -- Database: PostgreSQL (compatible with SQLite)
 
@@ -22,7 +23,7 @@ CREATE TABLE klienci (
 -- 3. Tabela Modele
 CREATE TABLE modele (
     id_modelu SERIAL PRIMARY KEY,
-    id_producenta INTEGER REFERENCES producenci(id_producenta),
+    id_producenta INTEGER REFERENCES producenci (id_producenta),
     nazwa VARCHAR(50) NOT NULL,
     segment VARCHAR(10) -- A, B, C, D, E, SUV itp.
 );
@@ -30,7 +31,7 @@ CREATE TABLE modele (
 -- 4. Tabela Samochody (konkretne egzemplarze)
 CREATE TABLE samochody (
     id_samochodu SERIAL PRIMARY KEY,
-    id_modelu INTEGER REFERENCES modele(id_modelu),
+    id_modelu INTEGER REFERENCES modele (id_modelu),
     rocznik INTEGER CHECK (rocznik > 1900),
     kolor VARCHAR(30),
     przebieg INTEGER DEFAULT 0 CHECK (przebieg >= 0),
@@ -41,21 +42,39 @@ CREATE TABLE samochody (
 -- 5. Tabela Sprzedaż
 CREATE TABLE sprzedaz (
     id_sprzedazy SERIAL PRIMARY KEY,
-    id_samochodu INTEGER UNIQUE REFERENCES samochody(id_samochodu),
-    id_klienta INTEGER REFERENCES klienci(id_klienta),
+    id_samochodu INTEGER UNIQUE REFERENCES samochody (id_samochodu),
+    id_klienta INTEGER REFERENCES klienci (id_klienta),
     data_sprzedazy DATE DEFAULT CURRENT_DATE,
     cena_koncowa DECIMAL(12, 2) NOT NULL,
-    metoda_platnosci VARCHAR(20) CHECK (metoda_platnosci IN ('gotówka', 'kredyt', 'leasing', 'przelew'))
+    metoda_platnosci VARCHAR(20) CHECK (
+        metoda_platnosci IN ('gotówka', 'kredyt', 'leasing', 'przelew')
+    )
 );
 
 -- Wstawianie danych (20 rekordów na tabelę)
 
 -- Producenci
 INSERT INTO producenci (nazwa, kraj) VALUES
-('Toyota', 'Japonia'), ('Volkswagen', 'Niemcy'), ('Ford', 'USA'), ('BMW', 'Niemcy'), ('Mercedes-Benz', 'Niemcy'),
-('Audi', 'Niemcy'), ('Honda', 'Japonia'), ('Hyundai', 'Korea Południowa'), ('Kia', 'Korea Południowa'), ('Renault', 'Francja'),
-('Peugeot', 'Francja'), ('Fiat', 'Włochy'), ('Volvo', 'Szwecja'), ('Skoda', 'Czechy'), ('Mazda', 'Japonia'),
-('Nissan', 'Japonia'), ('Tesla', 'USA'), ('Porsche', 'Niemcy'), ('Lexus', 'Japonia'), ('Opel', 'Niemcy');
+('Toyota', 'Japonia'),
+('Volkswagen', 'Niemcy'),
+('Ford', 'USA'),
+('BMW', 'Niemcy'),
+('Mercedes-Benz', 'Niemcy'),
+('Audi', 'Niemcy'),
+('Honda', 'Japonia'),
+('Hyundai', 'Korea Południowa'),
+('Kia', 'Korea Południowa'),
+('Renault', 'Francja'),
+('Peugeot', 'Francja'),
+('Fiat', 'Włochy'),
+('Volvo', 'Szwecja'),
+('Skoda', 'Czechy'),
+('Mazda', 'Japonia'),
+('Nissan', 'Japonia'),
+('Tesla', 'USA'),
+('Porsche', 'Niemcy'),
+('Lexus', 'Japonia'),
+('Opel', 'Niemcy');
 
 -- Klienci
 INSERT INTO klienci (imie, nazwisko, miasto, email, telefon) VALUES
@@ -82,13 +101,31 @@ INSERT INTO klienci (imie, nazwisko, miasto, email, telefon) VALUES
 
 -- Modele
 INSERT INTO modele (id_producenta, nazwa, segment) VALUES
-(1, 'Corolla', 'C'), (2, 'Golf', 'C'), (3, 'Focus', 'C'), (4, 'Seria 3', 'D'), (5, 'Klasa C', 'D'),
-(6, 'A4', 'D'), (7, 'Civic', 'C'), (8, 'Tucson', 'SUV'), (9, 'Sportage', 'SUV'), (10, 'Clio', 'B'),
-(11, '208', 'B'), (12, '500', 'A'), (13, 'XC60', 'SUV'), (14, 'Octavia', 'C'), (15, 'CX-5', 'SUV'),
-(16, 'Qashqai', 'SUV'), (17, 'Model 3', 'D'), (18, '911', 'Sport'), (19, 'RX', 'SUV'), (20, 'Astra', 'C');
+(1, 'Corolla', 'C'),
+(2, 'Golf', 'C'),
+(3, 'Focus', 'C'),
+(4, 'Seria 3', 'D'),
+(5, 'Klasa C', 'D'),
+(6, 'A4', 'D'),
+(7, 'Civic', 'C'),
+(8, 'Tucson', 'SUV'),
+(9, 'Sportage', 'SUV'),
+(10, 'Clio', 'B'),
+(11, '208', 'B'),
+(12, '500', 'A'),
+(13, 'XC60', 'SUV'),
+(14, 'Octavia', 'C'),
+(15, 'CX-5', 'SUV'),
+(16, 'Qashqai', 'SUV'),
+(17, 'Model 3', 'D'),
+(18, '911', 'Sport'),
+(19, 'RX', 'SUV'),
+(20, 'Astra', 'C');
 
 -- Samochody
-INSERT INTO samochody (id_modelu, rocznik, kolor, przebieg, cena_wyjsciowa, vin) VALUES
+INSERT INTO samochody (
+    id_modelu, rocznik, kolor, przebieg, cena_wyjsciowa, vin
+) VALUES
 (1, 2022, 'Biały', 15000, 95000.00, 'VIN00000000000001'),
 (2, 2021, 'Czarny', 32000, 88000.00, 'VIN00000000000002'),
 (3, 2020, 'Niebieski', 45000, 72000.00, 'VIN00000000000003'),
@@ -111,7 +148,9 @@ INSERT INTO samochody (id_modelu, rocznik, kolor, przebieg, cena_wyjsciowa, vin)
 (20, 2021, 'Biały', 22000, 85000.00, 'VIN00000000000020');
 
 -- Sprzedaż
-INSERT INTO sprzedaz (id_samochodu, id_klienta, data_sprzedazy, cena_koncowa, metoda_platnosci) VALUES
+INSERT INTO sprzedaz (
+    id_samochodu, id_klienta, data_sprzedazy, cena_koncowa, metoda_platnosci
+) VALUES
 (1, 1, '2023-10-05', 93000.00, 'gotówka'),
 (2, 2, '2023-09-12', 86500.00, 'kredyt'),
 (3, 3, '2023-11-20', 70000.00, 'przelew'),

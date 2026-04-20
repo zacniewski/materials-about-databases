@@ -42,7 +42,7 @@ erDiagram
     EMPLOYEE_PROJECTS {
         int employee_id FK
         int project_id FK
-        string role
+        string project_role
         int hours_per_week
     }
 ```
@@ -61,7 +61,7 @@ erDiagram
 1. Wyświetl listę wszystkich departamentów wraz z miastem i krajem, w którym się znajdują.
 1. Dla każdego pracownika wyświetl jego imię, nazwisko oraz miasto, w którym pracuje (wymaga złączenia trzech tabel: `employees`, `departments`, `locations`).
 1. Wyświetl listę projektów oraz imiona i nazwiska pracowników, którzy są do nich przypisani (użyj tabeli łączącej `employee_projects`).
-1. Znajdź wszystkich pracowników i ich role w projekcie o nazwie 'System ERP'.
+1. Znajdź wszystkich pracowników i ich role (`project_role`) w projekcie o nazwie 'System ERP'.
 1. Wyświetl wszystkie departamenty i ich lokalizacje (miasto), używając `LEFT JOIN`, aby uwzględnić departamenty, które mogą nie mieć przypisanej lokalizacji.
 1. Wyświetl listę pracowników wraz z projektami, do których są przypisani. Uwzględnij pracowników, którzy obecnie nie pracują nad żadnym projektem (`LEFT JOIN`).
 
@@ -74,4 +74,4 @@ erDiagram
 01. Policz, w ilu projektach bierze udział każdy pracownik (wyświetl imię, nazwisko i liczbę projektów).
 01. Oblicz całkowity budżet wszystkich projektów realizowanych przez firmę.
 01. Wyświetl miasta, w których pracuje więcej niż 2 pracowników (wymaga złączenia `employees`, `departments`, `locations` oraz użycia `GROUP BY` i `HAVING`).
-01. Oblicz średnią liczbę godzin tygodniowo (`hours_per_week`) poświęcanych na projekty przez pracowników w poszczególnych rolach (np. Developer, Manager).
+01. Oblicz średnią liczbę godzin tygodniowo (`hours_per_week`) poświęcanych na projekty przez pracowników w poszczególnych rolach (np. Developer, Manager, wykorzystując kolumnę `project_role`).

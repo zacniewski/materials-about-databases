@@ -4,41 +4,41 @@
 
 -- 1. Producenci
 CREATE TABLE Producenci (
-    id SERIAL PRIMARY KEY,
-    nazwa VARCHAR(100) NOT NULL,
-    kraj VARCHAR(50)
+    Id SERIAL PRIMARY KEY,
+    Nazwa VARCHAR(100) NOT NULL,
+    Kraj VARCHAR(50)
 );
 
 -- 2. Produkty
 CREATE TABLE Produkty (
-    id SERIAL PRIMARY KEY,
-    nazwa VARCHAR(100) NOT NULL,
-    cena NUMERIC(10, 2) NOT NULL,
-    ilosc_na_stanie INTEGER DEFAULT 0,
-    kategoria VARCHAR(50),
-    id_producenta INTEGER REFERENCES Producenci(id)
+    Id SERIAL PRIMARY KEY,
+    Nazwa VARCHAR(100) NOT NULL,
+    Cena NUMERIC(10, 2) NOT NULL,
+    Ilosc_na_stanie INTEGER DEFAULT 0,
+    Kategoria VARCHAR(50),
+    Id_producenta INTEGER REFERENCES Producenci (Id)
 );
 
 -- 3. Klienci
 CREATE TABLE Klienci (
-    id SERIAL PRIMARY KEY,
-    imie VARCHAR(50) NOT NULL,
-    nazwisko VARCHAR(50) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    miasto VARCHAR(50)
+    Id SERIAL PRIMARY KEY,
+    Imie VARCHAR(50) NOT NULL,
+    Nazwisko VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE,
+    Miasto VARCHAR(50)
 );
 
 -- 4. Zamowienia
 CREATE TABLE Zamowienia (
-    id SERIAL PRIMARY KEY,
-    id_klienta INTEGER REFERENCES Klienci(id),
-    id_produktu INTEGER REFERENCES Produkty(id),
-    data_zamowienia DATE DEFAULT CURRENT_DATE,
-    liczba_sztuk INTEGER NOT NULL
+    Id SERIAL PRIMARY KEY,
+    Id_klienta INTEGER REFERENCES Klienci (Id),
+    Id_produktu INTEGER REFERENCES Produkty (Id),
+    Data_zamowienia DATE DEFAULT CURRENT_DATE,
+    Liczba_sztuk INTEGER NOT NULL
 );
 
 -- Dane dla Producenci (20 rekordów)
-INSERT INTO Producenci (nazwa, kraj) VALUES
+INSERT INTO Producenci (Nazwa, Kraj) VALUES
 ('Intel', 'USA'), ('AMD', 'USA'), ('NVIDIA', 'USA'), ('ASUS', 'Tajwan'),
 ('MSI', 'Tajwan'), ('Gigabyte', 'Tajwan'), ('Samsung', 'Korea Południowa'),
 ('LG', 'Korea Południowa'), ('Logitech', 'Szwajcaria'), ('Razer', 'USA'),
@@ -47,7 +47,9 @@ INSERT INTO Producenci (nazwa, kraj) VALUES
 ('Acer', 'Tajwan'), ('TP-Link', 'Chiny'), ('Brother', 'Japonia');
 
 -- Dane dla Produkty (20 rekordów)
-INSERT INTO Produkty (nazwa, cena, ilosc_na_stanie, kategoria, id_producenta) VALUES
+INSERT INTO Produkty (
+    Nazwa, Cena, Ilosc_na_stanie, Kategoria, Id_producenta
+) VALUES
 ('Core i7-13700K', 1899.00, 15, 'Procesory', 1),
 ('Ryzen 7 7800X3D', 1750.00, 10, 'Procesory', 2),
 ('GeForce RTX 4070 Ti', 3999.00, 5, 'Karty graficzne', 3),
@@ -70,7 +72,7 @@ INSERT INTO Produkty (nazwa, cena, ilosc_na_stanie, kategoria, id_producenta) VA
 ('MFC-L2712DW', 950.00, 11, 'Drukarki', 20);
 
 -- Dane dla Klienci (20 rekordów)
-INSERT INTO Klienci (imie, nazwisko, email, miasto) VALUES
+INSERT INTO Klienci (Imie, Nazwisko, Email, Miasto) VALUES
 ('Jan', 'Kowalski', 'jan.kowalski@email.pl', 'Warszawa'),
 ('Anna', 'Nowak', 'anna.nowak@email.pl', 'Kraków'),
 ('Piotr', 'Wiśniewski', 'piotr.w@email.pl', 'Gdańsk'),
@@ -93,7 +95,9 @@ INSERT INTO Klienci (imie, nazwisko, email, miasto) VALUES
 ('Helena', 'Nowakowska', 'h.nowakowska@email.pl', 'Kielce');
 
 -- Dane dla Zamowienia (20 rekordów)
-INSERT INTO Zamowienia (id_klienta, id_produktu, data_zamowienia, liczba_sztuk) VALUES
+INSERT INTO Zamowienia (
+    Id_klienta, Id_produktu, Data_zamowienia, Liczba_sztuk
+) VALUES
 (1, 1, '2023-10-01', 1), (2, 3, '2023-10-02', 1), (3, 7, '2023-10-03', 2),
 (4, 9, '2023-10-04', 1), (5, 11, '2023-10-05', 4), (6, 13, '2023-10-06', 1),
 (7, 15, '2023-10-07', 1), (8, 17, '2023-10-08', 1), (9, 19, '2023-10-09', 3),

@@ -153,7 +153,7 @@ erDiagram
     EMPLOYEE_PROJECTS {
         int employee_id FK
         int project_id FK
-        string role
+        string project_role
         int hours_per_week
     }
 ```
