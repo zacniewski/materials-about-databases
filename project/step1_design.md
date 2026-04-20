@@ -19,18 +19,146 @@ Projektowanie bazy danych zazwyczaj przebiega w następujących krokach:
 1. [ ] Identyfikacja encji i ich atrybutów.
 1. [ ] Określenie relacji między encjami (1:1, 1:N, M:N).
 1. [ ] Stworzenie diagramu ER (użyj Mermaid).
-1. [ ] Normalizacja bazy danych do 3. postaci normalnej (3NF).
+1. [ ] Analiza i normalizacja bazy danych do 3. postaci normalnej (3NF) – wykorzystaj poniższą teorię i przykłady.
 1. [ ] Wybór optymalnych typów danych dla każdej kolumny.
 
-## Normalizacja w pigułce
+## Rozgrzewka: Analiza przypadku (Pracownicy)
 
-| Postać Normalna    | Zasada                                                                                                            | Cel                                |
-| :----------------- | :---------------------------------------------------------------------------------------------------------------- | :--------------------------------- |
-| **1NF** (Pierwsza) | Wartości w kolumnach muszą być atomowe (niepodzielne). Brak grup powtarzających się.                              | Eliminacja list wewnątrz pól.      |
-| **2NF** (Druga)    | Spełnia 1NF + wszystkie kolumny zależą od całego klucza głównego (ważne przy kluczach złożonych).                 | Eliminacja częściowych zależności. |
-| **3NF** (Trzecia)  | Spełnia 2NF + brak zależności przechodnich (kolumna niebędąca kluczem nie zależy od innej kolumny nie-kluczowej). | Eliminacja redundancji i anomalii. |
+Zanim przejdziesz do projektowania własnej bazy, przeanalizuj poniższe materiały dotyczące normalizacji. Zostały one przygotowane na przykładzie danych o pracownikach, aby pomóc Ci zrozumieć, jak unikać błędów projektowych.
 
-## Model ER (Propozycja dla VOD)
+## Normalizacja – teoria i praktyka
+
+Normalizacja to proces organizowania danych w bazie, mający na celu eliminację redundancji (powtarzania się danych), zminimalizowanie ryzyka wystąpienia anomalii oraz zapewnienie logicznej spójności danych.
+
+### Postacie Normalne (NF) - Przykłady
+
+#### 1. Pierwsza Postać Normalna (1NF)
+
+**Zasada:** Każda kolumna musi zawierać wartości atomowe (niepodzielne). Brak list i grup powtarzających się.
+
+**Błędna tabela (Naruszenie 1NF):**
+
+| ID  | Klient       | Telefony                 |
+| :-- | :----------- | :----------------------- |
+| 1   | Jan Kowalski | 111-222-333, 444-555-666 |
+
+**Poprawna tabela (1NF):**
+
+| ID  | Klient       | Telefon     |
+| :-- | :----------- | :---------- |
+| 1   | Jan Kowalski | 111-222-333 |
+| 1   | Jan Kowalski | 444-555-666 |
+
+______________________________________________________________________
+
+#### 2. Druga Postać Normalna (2NF)
+
+**Zasada:** Musi spełniać 1NF. Wszystkie kolumny niebędące kluczem muszą w pełni zależeć od **całego** klucza głównego (istotne przy kluczach złożonych).
+
+**Błędna tabela (Naruszenie 2NF):**
+
+*Klucz złożony: (ID_Kursu, ID_Studenta)*
+
+| ID_Kursu | ID_Studenta | Nazwa_Kursu | Ocena |
+| :------- | :---------- | :---------- | :---- |
+| K1       | S1          | Bazy Danych | 5.0   |
+| K1       | S2          | Bazy Danych | 4.0   |
+
+*Problem: `Nazwa_Kursu` zależy tylko od `ID_Kursu`, a nie od całego klucza (ID_Kursu + ID_Studenta).*
+
+**Poprawna struktura (2NF):**
+
+*Tabela Kursy:*
+
+| ID_Kursu | Nazwa_Kursu |
+| :------- | :---------- |
+| K1       | Bazy Danych |
+
+*Tabela Oceny:*
+
+| ID_Kursu | ID_Studenta | Ocena |
+| :------- | :---------- | :---- |
+| K1       | S1          | 5.0   |
+| K1       | S2          | 4.0   |
+
+______________________________________________________________________
+
+#### 3. Trzecia Postać Normalna (3NF)
+
+**Zasada:** Musi spełniać 2NF. Brak zależności przechodnich – kolumna niekluczowa nie może zależeć od innej kolumny niekluczowej.
+
+**Błędna tabela (Naruszenie 3NF):**
+
+| ID_Pracownika | Nazwisko | ID_Biura | Miasto_Biura |
+| :------------ | :------- | :------- | :----------- |
+| 1             | Nowak    | B10      | Kraków       |
+
+*Problem: `Miasto_Biura` zależy od `ID_Biura`, a `ID_Biura` zależy od `ID_Pracownika`. Mamy zależność przechodnią.*
+
+**Poprawna struktura (3NF):**
+
+*Tabela Pracownicy:*
+
+| ID_Pracownika | Nazwisko | ID_Biura |
+| :------------ | :------- | :------- |
+| 1             | Nowak    | B10      |
+
+*Tabela Biura:*
+
+| ID_Biura | Miasto_Biura |
+| :------- | :----------- |
+| B10      | Kraków       |
+
+### Anomalie bazodanowe
+
+- **Anomalia dodawania**: Brak możliwości dodania informacji (np. o nowym departamencie) bez dodania pracownika.
+- **Anomalia usuwania**: Usunięcie ostatniego pracownika z departamentu powoduje utratę informacji o samym departamencie.
+- **Anomalia modyfikacji**: Konieczność zmiany nazwy departamentu w wielu rekordach jednocześnie.
+
+## Model ER (Przykład znormalizowanej struktury)
+
+Poniższy diagram przedstawia znormalizowaną strukturę bazy danych pracowników (3NF), która może służyć jako wzorzec do analizy zależności:
+
+```mermaid
+erDiagram
+    LOCATIONS ||--o{ DEPARTMENTS : contains
+    DEPARTMENTS ||--o{ EMPLOYEES : has
+    EMPLOYEES ||--o{ EMPLOYEE_PROJECTS : works_on
+    PROJECTS ||--o{ EMPLOYEE_PROJECTS : involves
+
+    LOCATIONS {
+        int location_id PK
+        string city
+        string country
+    }
+    DEPARTMENTS {
+        int department_id PK
+        string department_name
+        int location_id FK
+    }
+    EMPLOYEES {
+        int employee_id PK
+        string first_name
+        string last_name
+        string email
+        date hire_date
+        decimal salary
+        int department_id FK
+    }
+    PROJECTS {
+        int project_id PK
+        string project_name
+        decimal budget
+    }
+    EMPLOYEE_PROJECTS {
+        int employee_id FK
+        int project_id FK
+        string role
+        int hours_per_week
+    }
+```
+
+## Model ER (Twój Projekt - Propozycja dla VOD)
 
 Poniższy diagram przedstawia podstawową strukturę systemu VOD.
 

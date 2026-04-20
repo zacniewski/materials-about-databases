@@ -1,25 +1,23 @@
 # Bazy Danych - Materiały Dydaktyczne
 
-Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 16 godzin ćwiczeń laboratoryjnych, 12 godzin pracy projektowej oraz 2 godziny kolokwium podsumowującego.
+Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 14 godzin ćwiczeń laboratoryjnych, 14 godzin pracy projektowej oraz 2 godziny kolokwium podsumowującego.
 
 ## Spis treści
 
-### [Laboratoria (16h)](./labs/)
+### [Laboratoria (14h)](./labs/)
 
 1. [Laboratorium 1: Podstawy SQL - Zapytania SELECT (Baza Rembud)](./labs/lab01_sql_basics_1.md) - 2h
 1. [Laboratorium 2: SQL - Podstawy kwerend i filtrowanie danych](./labs/lab02_sql_basics_2.md) - 2h
 1. [Laboratorium 3: SQL - Łączenie tabel i funkcje agregujące](./labs/lab03_joins_aggregation.md) - 2h
-1. [Laboratorium 4: Normalizacja – relacje bazodanowe](./labs/lab04_normalization.md) - 2h
-1. [Laboratorium 5: SQL - Funkcje, operacje na zbiorach i wyrażenia regularne](./labs/lab05_functions_regex.md) - 2h
-1. [Laboratorium 6: Funkcje w SQL](./labs/lab06_functions.md) - 2h
-1. [Laboratorium 7: Widoki (perspektywy) i grupowanie w SQL](./labs/lab07_views_grouping.md) - 2h
-1. [Laboratorium 8: Podzapytania w SQL](./labs/lab08_subqueries.md) - 2h
+1. [Laboratorium 4: SQL - Funkcje, operacje na zbiorach i wyrażenia regularne](./labs/lab05_functions_regex.md) - 2h
+1. [Laboratorium 5: Funkcje w SQL](./labs/lab06_functions.md) - 2h
+1. [Laboratorium 6: Grupowanie, Widoki i Podzapytania w SQL](./labs/lab07_grouping_subqueries.md) - 2h
 1. **Kolokwium podsumowujące (2h)** - Sprawdzian wiedzy teoretycznej i praktycznej.
 
-### [Projekt (12h)](./project/)
+### [Projekt (14h)](./project/)
 
 1. [Wstęp do projektu i wymagania](./project/README.md)
-1. [Etap 1: Projektowanie relacyjnych baz danych](./project/step1_design.md) - 2h
+1. [Etap 1: Projektowanie relacyjnych baz danych](./project/step1_design.md) - 4h (zawiera teorię normalizacji)
 1. [Etap 2: Proceduralne rozszerzenia w projekcie](./project/step2_procedural.md) - 2h
 1. [Etap 3: Implementacja aplikacji bazodanowej](./project/step3_implementation.md) - 10h
 1. [Etap 4: Analiza danych i raportowanie](./project/step4_analysis.md) - 1h
