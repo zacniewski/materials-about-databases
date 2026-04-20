@@ -15,76 +15,106 @@ Klauzula `GROUP BY` pozwala na grupowanie wierszy, które mają te same wartośc
 - `AVG(kolumna)` – oblicza średnią arytmetyczną.
 - `MIN(kolumna)` / `MAX(kolumna)` – znajduje wartość minimalną / maksymalną.
 
-**Klauzula HAVING** służy do filtrowania *grup*, podobnie jak `WHERE` służy do filtrowania *wierszy*. `WHERE` jest wykonywane przed grupowaniem, a `HAVING` po nim.
+**Zasady grupowania:**
 
-**Przykład:**
-Wyświetl wydziały, na których studiuje więcej niż 5 studentów:
+1. Każda kolumna wybrana w `SELECT`, która nie jest użyta w funkcji agregującej, **musi** znaleźć się w klauzuli `GROUP BY`.
+1. Możemy grupować po wielu kolumnach jednocześnie.
+1. Klauzula `WHERE` filtruje wiersze **przed** grupowaniem, natomiast `HAVING` filtruje grupy **po** ich utworzeniu i wyliczeniu agregatów.
+
+**Przykład 1 (Grupowanie po wielu kolumnach):**
+Liczba studentów na każdym roku w ramach każdego kierunku:
 
 ```sql
-SELECT wydzial, COUNT(*) as liczba_studentów
-FROM Kierunki K
-JOIN Studenci S ON K.id_kierunku = S.id_kierunku
-GROUP BY wydzial
-HAVING liczba_studentów > 5;
+SELECT id_kierunku, rok_studiow, COUNT(*) as liczba_studentow
+FROM Studenci
+GROUP BY id_kierunku, rok_studiow
+ORDER BY id_kierunku, rok_studiow;
+```
+
+**Przykład 2 (WHERE vs HAVING):**
+Średnia ocen powyżej 4.0 dla przedmiotów, które mają przypisane więcej niż 5 ECTS:
+
+```sql
+SELECT id_przedmiotu, AVG(ocena) as srednia
+FROM Oceny O
+JOIN Przedmioty P ON O.id_przedmiotu = P.id_przedmiotu
+WHERE P.ects > 5              -- Filtrowanie wierszy (przedmiotów)
+GROUP BY id_przedmiotu
+HAVING AVG(ocena) > 4.0;      -- Filtrowanie grup (średniej z ocen)
 ```
 
 ### 2. Widoki (Views)
 
-Widok to zapisane zapytanie `SELECT`, które możemy traktować jak tabelę. Nie przechowuje on danych (z wyjątkiem specyficznych przypadków), a jedynie instrukcję ich pobierania.
+Widok to zapisane zapytanie `SELECT`, które możemy traktować jak wirtualną tabelę. Nie przechowuje on danych (z wyjątkiem widoków zmaterializowanych), a jedynie definicję ich pobierania.
 
-**Zalety:**
+**Zalety i ograniczenia:**
 
-- Ukrywanie złożoności zapytania (składowanie skomplikowanych JOIN-ów).
-- Bezpieczeństwo (udostępnianie tylko części kolumn).
-- Spójność (używamy tej samej logiki w wielu miejscach).
+- **Ukrywanie złożoności:** Skomplikowane złączenia (JOIN) i obliczenia można zamknąć w jednym widoku.
+- **Bezpieczeństwo:** Możemy udostępnić użytkownikowi widok zawierający tylko wybrane kolumny, zamiast całej tabeli.
+- **Aktualizacja danych:** Wiele systemów DBMS pozwala na aktualizację danych przez widoki (INSERT/UPDATE), ale tylko jeśli widok jest "prosty" (odnosi się do jednej tabeli, nie zawiera `GROUP BY`, `DISTINCT` ani funkcji agregujących).
 
-**Przykład:**
-Utworzenie widoku z podstawowymi danymi studenta i jego kierunku:
+**Przykład (Widok z agregacją):**
+Średnie ocen wszystkich studentów:
 
 ```sql
-CREATE VIEW widok_studenci_kierunki AS
-SELECT S.imie, S.nazwisko, K.nazwa_kierunku
+CREATE VIEW v_srednie_studentow AS
+SELECT S.id_studenta, S.imie, S.nazwisko, AVG(O.ocena) as srednia
 FROM Studenci S
-JOIN Kierunki K ON S.id_kierunku = K.id_kierunku;
+LEFT JOIN Oceny O ON S.id_studenta = O.id_studenta
+GROUP BY S.id_studenta, S.imie, S.nazwisko;
 
--- Użycie widoku:
-SELECT * FROM widok_studenci_kierunki WHERE nazwa_kierunku = 'Informatyka';
+-- Wykorzystanie widoku:
+SELECT * FROM v_srednie_studentow WHERE srednia > 4.0;
 ```
 
 ### 3. Podzapytania (Subqueries)
 
-Podzapytanie to zapytanie `SELECT` umieszczone wewnątrz innego zapytania.
+Podzapytanie to zapytanie `SELECT` umieszczone wewnątrz innego zapytania (głównego).
 
-**Rodzaje podzapytań:**
+**Rodzaje i operatory:**
 
-1. **Nieskorelowane:** Wykonywane raz, niezależnie od zapytania zewnętrznego. Często używane z operatorami `IN`, `ANY`, `ALL` lub operatorami porównania.
-1. **Skorelowane:** Odwołuje się do kolumn z zapytania zewnętrznego. Wykonywane dla każdego wiersza zapytania głównego.
-1. **W klauzuli SELECT:** Zwraca pojedynczą wartość (skalarną) dla każdego wiersza.
-1. **W klauzuli FROM:** Traktowane jako tymczasowa tabela.
+1. **Podzapytania skalarne:** Zwracają dokładnie jedną wartość (jeden wiersz i jedną kolumnę). Mogą być użyte tam, gdzie pojedyncza wartość (np. w `SELECT` lub po operatorze porównania `=, <, >`).
+1. **Podzapytania wielowierszowe:** Zwracają listę wartości. Używane z operatorami:
+   - `IN` – wartość znajduje się na liście.
+   - `ANY` / `SOME` – porównanie z przynajmniej jedną wartością z listy.
+   - `ALL` – porównanie ze wszystkimi wartościami z listy.
+1. **Operator EXISTS:** Sprawdza, czy podzapytanie zwraca jakiekolwiek wiersze. Często stosowany w podzapytaniach skorelowanych.
 
-**Przykład (podzapytanie nieskorelowane):**
-Studenci, którzy mają ocenę wyższą niż średnia ogólna:
+**Przykład (Podzapytanie w klauzuli FROM):**
+Traktujemy wynik podzapytania jak tymczasową tabelę. Wymaga ona nadania aliasu.
 
 ```sql
-SELECT imie, nazwisko
-FROM Studenci
-WHERE id_studenta IN (
-    SELECT id_studenta FROM Oceny WHERE ocena > (SELECT AVG(ocena) FROM Oceny)
+SELECT AVG(liczba_ocen)
+FROM (
+    SELECT id_studenta, COUNT(*) as liczba_ocen
+    FROM Oceny
+    GROUP BY id_studenta
+) AS statystyki_studentow;
+```
+
+**Przykład (Operator ANY):**
+Przedmioty, które mają tyle samo ECTS, co dowolny przedmiot na kierunku 'Informatyka':
+
+```sql
+SELECT nazwa_przedmiotu, ects
+FROM Przedmioty
+WHERE ects = ANY (
+    SELECT ects FROM Przedmioty P
+    JOIN Kierunki K ON P.id_kierunku = K.id_kierunku
+    WHERE K.nazwa_kierunku = 'Informatyka'
 );
 ```
 
-**Przykład (podzapytanie skorelowane):**
-Studenci, którzy mają najwyższą ocenę ze swojego kierunku (wymaga połączenia tabel):
+**Przykład (Operator EXISTS):**
+Kierunki, na których studiuje co najmniej jeden student urodzony przed 2000 rokiem:
 
 ```sql
-SELECT S.imie, S.nazwisko, O.ocena
-FROM Studenci S
-JOIN Oceny O ON S.id_studenta = O.id_studenta
-WHERE O.ocena = (
-    SELECT MAX(O2.ocena)
-    FROM Oceny O2
-    JOIN Studenci S2 ON O2.id_studenta = S2.id_studenta
-    WHERE S2.id_kierunku = S.id_kierunku
+SELECT nazwa_kierunku
+FROM Kierunki K
+WHERE EXISTS (
+    SELECT 1 FROM Studenci S
+    WHERE S.id_kierunku = K.id_kierunku
+    AND S.data_urodzenia < '2000-01-01'
 );
 ```
 
