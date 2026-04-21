@@ -1,4 +1,4 @@
-# Etap 4: Analiza danych i raportowanie (1h)
+# Etap 4: Analiza danych i raportowanie (2 godz.)
 
 ## Cel etapu
 
@@ -16,10 +16,16 @@ Wykorzystanie zaawansowanego SQL do wyciągnięcia wiedzy z bazy danych. Na tym 
 
 ## Zadania (PostgreSQL)
 
-1. [ ] **Analiza popularności:** Napisz zapytanie, które zwróci TOP 3 najczęściej wypożyczane filmy w ostatnim miesiącu.
-1. [ ] **Analiza przychodów:** Oblicz całkowity przychód z wypożyczeń w podziale na gatunki filmowe.
-1. [ ] **Aktywność użytkowników:** Znajdź "Power Users" – osoby, które wypożyczyły więcej niż 5 filmów.
-1. [ ] **Wartość klienta (LTV):** Oblicz, ile średnio pieniędzy zostawia w systemie jeden użytkownik.
+W tym etapie skupiamy się na realizacji wymagań dotyczących **Widoków (min. 3)**.
+
+1. [ ] **Widoki analityczne (min. 3):**
+   - [ ] Stworzenie widoku raportującego popularność (np. TOP 3 filmy).
+   - [ ] Stworzenie widoku finansowego (np. przychody wg gatunków).
+   - [ ] Stworzenie widoku użytkowników (np. aktywni użytkownicy z liczbą wypożyczeń).
+1. [ ] **Analiza danych:**
+   - [ ] Wykorzystanie funkcji agregujących (`COUNT`, `SUM`, `AVG`).
+   - [ ] Zastosowanie `GROUP BY` oraz `HAVING`.
+   - [ ] Przygotowanie wyników w formie czytelnych tabel.
 
 ## Przykłady zaawansowanych raportów
 
@@ -54,11 +60,12 @@ Efektem końcowym Twojej pracy powinien być dokument (np. w Markdown lub PDF) z
 ### Lista kontrolna dokumentacji:
 
 - [ ] **Wstęp**: Opis systemu i jego założeń.
-- [ ] **Projekt**: Diagram ER oraz opis najważniejszych tabel.
-- [ ] **Implementacja**: Link do repozytorium/kodu, przykładowe triggery.
-- [ ] **Instrukcja**: Jak uruchomić projekt (np. kolejność skryptów SQL).
-- [ ] **Analiza**: Wyniki zapytań analitycznych (tabele lub wykresy wygenerowane na ich podstawie).
-- [ ] **Wnioski**: Refleksja nad tym, co było najtrudniejsze i co można by ulepszyć.
+- [ ] **Projekt**: Diagram ERD (min. 5 encji) oraz opis tabel i atrybutów.
+- [ ] **Relacje**: Definicje kluczy i sprawdzenie ich w `information_schema`.
+- [ ] **Obiekty**: Prezentacja 3 widoków, 3 funkcji i 3 wyzwalaczy (kod + opis + efekt).
+- [ ] **Dane**: Prezentacja zawartości tabel.
+- [ ] **Instrukcja**: Jak uruchomić projekt.
+- [ ] **Wnioski**: Refleksja nad realizacją projektu.
 
 ______________________________________________________________________
 

@@ -1,4 +1,4 @@
-# Etap 2: Proceduralne rozszerzenia w projekcie (2h)
+# Etap 2: Proceduralne rozszerzenia w projekcie (3 godz.)
 
 ## Cel etapu
 
@@ -14,15 +14,16 @@ Zaimplementowanie logiki biznesowej bezpośrednio w silniku bazy danych przy uż
 
 ## Zadania na tym etapie
 
-1. [ ] **Wyzwalacze i funkcje walidacyjne:**
-   - [ ] Automatyczna aktualizacja daty ostatniego logowania użytkownika.
-   - [ ] Blokowanie wypożyczenia filmu, jeśli użytkownik ma zaległości w płatnościach.
-   - [ ] Logowanie usuniętych rekordów do tabeli archiwalnej (Audit Log).
-1. [ ] **Funkcje obliczeniowe:**
-   - [ ] Walidacja adresu e-mail przy rejestracji (wyrażenia regularne).
-   - [ ] Funkcja do wyliczania rabatu na podstawie stażu użytkownika.
-1. [ ] **Opcjonalnie: Integracja zewnętrzna**
-   - [ ] Przygotowanie widoków pod raporty PDF.
+Wymagane jest przygotowanie **minimum 3 funkcji** oraz **minimum 3 wyzwalaczy**.
+
+1. [ ] **Wyzwalacze (min. 3):**
+   - [ ] Wyzwalacz walidacyjny (np. `BEFORE INSERT` sprawdzający warunki biznesowe).
+   - [ ] Wyzwalacz logujący/audytowy (np. `AFTER UPDATE` zapisujący historię do tabeli pomocniczej).
+   - [ ] Wyzwalacz automatyzujący (np. aktualizacja statusu lub daty).
+1. [ ] **Funkcje (min. 3):**
+   - [ ] Funkcja zwracająca tabelę (np. raport aktywności użytkownika).
+   - [ ] Funkcja obliczeniowa (np. wyliczanie ceny po rabacie).
+   - [ ] Funkcja walidacyjna (np. sprawdzanie poprawności danych wejściowych).
 
 ## Mechanizm działania wyzwalacza (Trigger)
 
@@ -100,7 +101,9 @@ Jeśli chcesz dodać warstwę aplikacyjną w Pythonie, dla PostgreSQL użyj bibl
 
 ## Lista kontrolna (Checklist)
 
+- [ ] Czy zaimplementowałeś **minimum 3 funkcje**?
+- [ ] Czy zaimplementowałeś **minimum 3 wyzwalacze**?
+- [ ] Czy każda funkcja/wyzwalacz ma krótki opis działania?
 - [ ] Czy funkcje mają zdefiniowany język (`LANGUAGE plpgsql`)?
 - [ ] Czy wyzwalacze typu `BEFORE` są używane do walidacji, a `AFTER` do logowania (audit)?
-- [ ] Czy obsłużyłeś sytuacje, w których funkcja może zwrócić `NULL`?
-- [ ] Czy Twoje funkcje są odporne na ataki SQL Injection (użycie parametrów zamiast konkatenacji)?
+- [ ] Czy zdefiniowałeś tabelę pomocniczą dla wyzwalaczy logujących?

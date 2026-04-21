@@ -16,7 +16,7 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 14 god
 
 ### [Projekt (14h)](./project/)
 
-1. [Wstęp do projektu i wymagania](./project/README.md)
+1. [Wstęp do projektu i wymagania](project/Exemplary_project_VOD.md)
 1. [Etap 1: Projektowanie relacyjnych baz danych](./project/step1_design.md) - 4h (zawiera teorię normalizacji)
 1. [Etap 2: Proceduralne rozszerzenia w projekcie](./project/step2_procedural.md) - 2h
 1. [Etap 3: Implementacja aplikacji bazodanowej](./project/step3_implementation.md) - 10h

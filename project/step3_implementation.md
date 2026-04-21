@@ -1,4 +1,4 @@
-# Etap 3: Implementacja aplikacji bazodanowej (10h)
+# Etap 3: Implementacja aplikacji bazodanowej (5 godz.)
 
 ## Cel etapu
 
@@ -17,9 +17,11 @@ Zalecane jest podejście warstwowe, aby oddzielić zapytania SQL od logiki preze
 1. [ ] **Inicjalizacja bazy (PostgreSQL):**
    - [ ] Stworzenie skryptu `schema.sql` (tabele, klucze, więzy, procedury z Etapu 2).
    - [ ] Użycie `GENERATED ALWAYS AS IDENTITY` dla kluczy głównych.
+   - [ ] Przygotowanie raportu z atrybutami (zgodnie z wytycznymi - `information_schema.columns`).
 1. [ ] **Zasilenie bazy danymi (Seeding):**
    - [ ] Skrypt `seed.sql` dodający: min. 20 filmów, 10 użytkowników i 50 wypożyczeń.
    - [ ] Zadbanie o różnorodność danych (różne statusy, daty).
+   - [ ] Przygotowanie prezentacji zawartości tabel (SELECT * FROM ...).
 1. [ ] **Implementacja Modułu Użytkownika:**
    - [ ] Rejestracja i logowanie (z walidacją danych).
    - [ ] Wyszukiwanie filmów (np. po tytule lub gatunku).
@@ -84,8 +86,10 @@ class MovieRepository:
 
 ## Wymagania techniczne (Checklist)
 
+- [ ] Czy przygotowałeś tabele z atrybutami dla każdej z 5 encji?
+- [ ] Czy przygotowałeś tabele z zawartością dla każdej z 5 encji?
 - [ ] Czy wszystkie zapytania `INSERT/UPDATE` są wykonywane wewnątrz **transakcji**?
-- [ ] Czy używasz **parametryzacji zapytań** (np. `%s` w psycopg) zamiast f-stringów (ochrona przed SQL Injection)?
+- [ ] Czy używasz **parametryzacji zapytań** (np. `%s` w psycopg) zamiast f-stringów?
 - [ ] Czy kod jest podzielony na czytelne funkcje/klasy?
-- [ ] Czy po uruchomieniu skryptu `schema.sql` baza jest gotowa do pracy (zawiera wszystkie tabele i procedury)?
-- [ ] Czy skrypt `seed.sql` można uruchomić wielokrotnie bez błędów (np. stosując `TRUNCATE` lub `ON CONFLICT DO NOTHING`)?
+- [ ] Czy po uruchomieniu skryptu `schema.sql` baza jest gotowa do pracy?
+- [ ] Czy skrypt `seed.sql` można uruchomić wielokrotnie bez błędów?

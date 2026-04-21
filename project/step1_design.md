@@ -1,4 +1,4 @@
-# Etap 1: Projektowanie relacyjnych baz danych (2h)
+# Etap 1: Projektowanie relacyjnych baz danych (2 godz.)
 
 ## Cel etapu
 
@@ -16,10 +16,11 @@ Projektowanie bazy danych zazwyczaj przebiega w następujących krokach:
 
 ## Zadania na tym etapie
 
-1. [ ] Identyfikacja encji i ich atrybutów.
+1. [ ] Identyfikacja encji i ich atrybutów (min. 5 encji zgodnie z wytycznymi).
 1. [ ] Określenie relacji między encjami (1:1, 1:N, M:N).
-1. [ ] Stworzenie diagramu ER (użyj Mermaid).
-1. [ ] Analiza i normalizacja bazy danych do 3. postaci normalnej (3NF) – wykorzystaj poniższą teorię i przykłady.
+1. [ ] Stworzenie diagramu ER (użyj Mermaid, zadbaj o czytelność relacji).
+1. [ ] Analiza i normalizacja bazy danych do 3. postaci normalnej (3NF).
+1. [ ] Przygotowanie opisów tabel i wykazu atrybutów (wykorzystaj zapytania do `information_schema.columns`).
 1. [ ] Wybór optymalnych typów danych dla każdej kolumny.
 
 ## Rozgrzewka: Analiza przypadku (Pracownicy)
@@ -221,6 +222,28 @@ stateDiagram-v2
     ZAKONCZONE --> [*]
 ```
 
+Relacje między tabelami należy zdefiniować przy użyciu polecenia `ALTER TABLE` (lub bezpośrednio w `CREATE TABLE`). Klucze obce zapewniają integralność referencyjną danych.
+
+#### Przykład definicji klucza obcego:
+
+```sql
+ALTER TABLE wypozyczenie
+ADD CONSTRAINT fk_wypozyczenie_uzytkownik
+FOREIGN KEY (uzytkownik_id)
+REFERENCES uzytkownik(id)
+ON DELETE CASCADE;
+```
+
+#### Przykład sprawdzenia kluczy:
+
+W wytycznych wymagane jest potwierdzenie istnienia kluczy zapytaniem:
+
+```sql
+SELECT constraint_name, table_name, column_name
+FROM information_schema.key_column_usage
+WHERE table_name = 'wypozyczenie';
+```
+
 ## Wybór typów danych (PostgreSQL)
 
 | Kategoria          | Rekomendowany typ                  | Zastosowanie                                      |
@@ -237,8 +260,9 @@ stateDiagram-v2
 Przed przejściem do implementacji (Etap 3), sprawdź czy Twój projekt spełnia poniższe kryteria:
 
 - [ ] Czy każda tabela posiada **Klucz Główny** (PK)?
+- [ ] Czy masz zaprojektowane **minimum 5 encji**?
 - [ ] Czy relacje **Wiele-do-Wielu** są zrealizowane przez tabele łączące (np. `film_aktor`)?
-- [ ] Czy nazwy tabel i kolumn są spójne (np. wszystko w liczbie pojedynczej, małe litery, `snake_case`)?
-- [ ] Czy unikasz przechowywania danych wyliczanych (np. `liczba_wypozyczen` - to lepiej policzyć zapytaniem)?
-- [ ] Czy typy danych są optymalne (np. nie używasz `TEXT` tam, gdzie wystarczy `CHAR(3)`)?
+- [ ] Czy przygotowałeś kody SQL do sprawdzenia atrybutów w `information_schema`?
+- [ ] Czy nazwy tabel i kolumn są spójne (np. małe litery, `snake_case`)?
+- [ ] Czy unikasz przechowywania danych wyliczanych?
 - [ ] Czy zdefiniowałeś więzy integralności (`NOT NULL`, `UNIQUE`, `CHECK`)?
