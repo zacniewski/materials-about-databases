@@ -9,13 +9,13 @@
 
 ## Podsumowanie wymagań (Checklist)
 
-| Sekcja            | Wymagane elementy                                                 | Status |
-| :---------------- | :---------------------------------------------------------------- | :----: |
-| **Projekt**       | Diagram ER, normalizacja 3NF, klucze PK/FK, typy danych.          |  [ ]   |
-| **Implementacja** | Skrypt DDL, dane testowe (seed), min. 1 trigger, min. 1 funkcja.  |  [ ]   |
-| **Aplikacja**     | Połączenie z DB (np. Python), obsługa transakcji, obsługa błędów. |  [ ]   |
-| **Analiza**       | TOP 3 raporty, agregacje, filtrowanie, wnioski biznesowe.         |  [ ]   |
-| **Dokumentacja**  | Instrukcja uruchomienia, zrzuty ekranu, opis logiki.              |  [ ]   |
+| Sekcja            | Wymagane elementy                                                | Status |
+| :---------------- | :--------------------------------------------------------------- | :----: |
+| **Projekt**       | Diagram ER, normalizacja 3NF, klucze PK/FK, typy danych.         |  [ ]   |
+| **Implementacja** | Skrypt DDL, dane testowe (seed), min. 1 trigger, min. 1 funkcja. |  [ ]   |
+| **Logika**        | Skrypty zapytań SQL, obsługa transakcji, obsługa błędów.         |  [ ]   |
+| **Analiza**       | TOP 3 raporty, agregacje, filtrowanie, wnioski biznesowe.        |  [ ]   |
+| **Dokumentacja**  | Instrukcja uruchomienia, zrzuty ekranu, opis logiki.             |  [ ]   |
 
 ## Streszczenie
 
@@ -39,7 +39,7 @@ Krótki opis problemu, celu projektu i najważniejszych rezultatów (5–8 zdań
 - **DDL**: (Wklej najważniejsze fragmenty lub daj link do pliku SQL)
 - **Dane przykładowe**: (Opis zestawu danych testowych)
 - **Logika proceduralna**: (Kod wyzwalaczy i funkcji z opisem ich działania)
-- **Integracje**: (Fragmenty kodu Python/DAO z opisem obsługi transakcji)
+- **Zapytania i transakcje**: (Fragmenty kodu SQL realizujące operacje biznesowe z opisem obsługi transakcji)
 
 ## Testy i walidacja
 
@@ -55,7 +55,7 @@ Krótki opis problemu, celu projektu i najważniejszych rezultatów (5–8 zdań
 ## Rezultaty i demonstracja
 
 - Zrzuty ekranu z działania aplikacji (np. menu, lista filmów).
-- Instrukcja uruchomienia (np. `psql -f schema.sql`, `python main.py`).
+- Instrukcja uruchomienia (np. `psql -f schema.sql`, `psql -f queries.sql`).
 
 ## Wnioski i dalszy rozwój
 
@@ -65,4 +65,4 @@ Krótki opis problemu, celu projektu i najważniejszych rezultatów (5–8 zdań
 
 ## Bibliografia i źródła
 
-- Linki do dokumentacji PostgreSQL, psycopg, kursów SQL.
+- Linki do dokumentacji PostgreSQL, kursów SQL.

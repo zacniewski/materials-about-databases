@@ -95,9 +95,9 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-## Integracja z Pythonem (opcjonalnie)
+## Dokumentacja procedur
 
-Jeśli chcesz dodać warstwę aplikacyjną w Pythonie, dla PostgreSQL użyj biblioteki `psycopg` i zarządzaj transakcjami w kodzie aplikacji. Dla prototypów SQLite można użyć `sqlite3` i rejestrować funkcje niestandardowe.
+Każda procedura, funkcja i wyzwalacz powinny być udokumentowane w raporcie końcowym, wyjaśniając problem biznesowy, który rozwiązują.
 
 ## Lista kontrolna (Checklist)
 

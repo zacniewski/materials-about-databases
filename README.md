@@ -19,7 +19,7 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 14 god
 1. [Wstęp do projektu i wymagania](project/Exemplary_project_VOD.md)
 1. [Etap 1: Projektowanie relacyjnych baz danych](./project/step1_design.md) - 4h (zawiera teorię normalizacji)
 1. [Etap 2: Proceduralne rozszerzenia w projekcie](./project/step2_procedural.md) - 2h
-1. [Etap 3: Implementacja aplikacji bazodanowej](./project/step3_implementation.md) - 10h
+1. [Etap 3: Implementacja i testowanie zapytań SQL](./project/step3_implementation.md) - 10h
 1. [Etap 4: Analiza danych i raportowanie](./project/step4_analysis.md) - 1h
 
 ## Zasady zaliczenia i punktacja
@@ -40,8 +40,7 @@ Dla obu części przedmiotu (laboratoria i projekt) obowiązuje poniższa skala 
 - **Konfiguracja bazy danych:** [Instrukcja importu plików .sql](./labs/db_setup_guide.md)
 - **Baza danych (główna):** PostgreSQL
 - **Klient:** psql lub pgAdmin
-- **Alternatywnie (opcjonalnie):** SQLite + DB Browser for SQLite
-- **Język pomocniczy:** Python (np. `psycopg` dla PostgreSQL lub `sqlite3` dla SQLite)
+- **Alternatywnie:** SQLite + DB Browser for SQLite
 - **Diagramy:** Mermaid (Markdown)
 
 ## Poradniki i formatowanie

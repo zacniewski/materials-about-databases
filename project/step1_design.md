@@ -257,7 +257,7 @@ WHERE table_name = 'wypozyczenie';
 
 ## Lista kontrolna projektu (Checklist)
 
-Przed przejściem do implementacji (Etap 3), sprawdź czy Twój projekt spełnia poniższe kryteria:
+Przed przejściem do implementacji i testowania zapytań (Etap 3), sprawdź czy Twój projekt spełnia poniższe kryteria:
 
 - [ ] Czy każda tabela posiada **Klucz Główny** (PK)?
 - [ ] Czy masz zaprojektowane **minimum 5 encji**?

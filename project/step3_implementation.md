@@ -1,95 +1,73 @@
-# Etap 3: Implementacja aplikacji bazodanowej (5 godz.)
+# Etap 3: Implementacja i testowanie zapytań SQL (5 godz.)
 
 ## Cel etapu
 
-Stworzenie kompletnego systemu, który integruje bazę danych z warstwą logiczną (np. w Pythonie). Na tym etapie "ożywiamy" projekt, implementując funkcjonalności dla użytkowników i administratorów.
+Przygotowanie kompletnych skryptów SQL, które realizują logikę biznesową systemu. Na tym etapie "ożywiamy" projekt, implementując zaawansowane zapytania, skrypty zasilające oraz weryfikując poprawność działania więzów i procedur w PostgreSQL.
 
-## Architektura aplikacji (Propozycja)
+## Struktura skryptów
 
-Zalecane jest podejście warstwowe, aby oddzielić zapytania SQL od logiki prezentacji:
+Zalecane jest zorganizowanie kodu w czytelne pliki SQL:
 
-1. **Warstwa Danych (SQL Scripts)**: Pliki `.sql` tworzące strukturę i dane testowe.
-1. **Warstwa Dostępu do Danych (DAO/Repository)**: Funkcje w Pythonie wykonujące konkretne zapytania.
-1. **Warstwa Logiki/Interfejsu**: Menu konsolowe lub proste GUI obsługujące interakcję z użytkownikiem.
+1. **`schema.sql`**: Definicja struktury (DDL), w tym tabele, klucze, więzy oraz procedury/funkcje/wyzwalacze z Etapu 2.
+1. **`seed.sql`**: Skrypt zasilający bazę danymi testowymi.
+1. **`queries.sql`**: Zestaw zapytań realizujących konkretne funkcjonalności aplikacji (np. wyszukiwanie, raporty).
 
 ## Zadania na tym etapie
 
 1. [ ] **Inicjalizacja bazy (PostgreSQL):**
-   - [ ] Stworzenie skryptu `schema.sql` (tabele, klucze, więzy, procedury z Etapu 2).
+   - [ ] Stworzenie skryptu `schema.sql`.
    - [ ] Użycie `GENERATED ALWAYS AS IDENTITY` dla kluczy głównych.
    - [ ] Przygotowanie raportu z atrybutami (zgodnie z wytycznymi - `information_schema.columns`).
 1. [ ] **Zasilenie bazy danymi (Seeding):**
    - [ ] Skrypt `seed.sql` dodający: min. 20 filmów, 10 użytkowników i 50 wypożyczeń.
    - [ ] Zadbanie o różnorodność danych (różne statusy, daty).
    - [ ] Przygotowanie prezentacji zawartości tabel (SELECT * FROM ...).
-1. [ ] **Implementacja Modułu Użytkownika:**
-   - [ ] Rejestracja i logowanie (z walidacją danych).
-   - [ ] Wyszukiwanie filmów (np. po tytule lub gatunku).
-   - [ ] Proces wypożyczenia (obsługa transakcji).
-1. [ ] **Implementacja Modułu Administratora:**
-   - [ ] Zarządzanie katalogiem (CRUD dla filmów).
-   - [ ] Panel statystyk (podstawowe zliczenia).
+1. [ ] **Implementacja logiki operacyjnej (w `queries.sql`):**
+   - [ ] **Moduł Użytkownika:**
+     - [ ] Wyszukiwanie filmów (np. po tytule lub gatunku z użyciem `ILIKE`).
+     - [ ] Proces wypożyczenia (użycie transakcji `BEGIN; ... COMMIT;`).
+   - [ ] **Moduł Administratora:**
+     - [ ] Zarządzanie katalogiem (operacje CRUD na filmach).
+     - [ ] Panel statystyk (podstawowe zliczenia, np. najpopularniejsze filmy).
 
-## Obsługa błędów bazy danych
+## Obsługa błędów i więzów danych
 
-Dobra aplikacja musi reagować na błędy zwracane przez PostgreSQL:
+W czystym SQL błędy są zgłaszane przez system bazy danych. Należy przetestować reakcję bazy na niepoprawne dane:
 
-| Wyjątek (psycopg)     | Przyczyna                                      | Akcja dla użytkownika                           |
-| :-------------------- | :--------------------------------------------- | :---------------------------------------------- |
-| `UniqueViolation`     | Próba rejestracji na zajęty e-mail.            | "Ten adres e-mail jest już w użyciu."           |
-| `ForeignKeyViolation` | Próba usunięcia filmu, który jest wypożyczony. | "Nie można usunąć filmu z historią wypożyczeń." |
-| `CheckViolation`      | Cena filmu jest mniejsza niż 0.                | "Wprowadź poprawną kwotę."                      |
-| `RaiseException`      | Wyzwalacz z Etapu 2 zablokował akcję.          | Wyświetl komunikat z `RAISE EXCEPTION`.         |
+| Kod błędu (SQLState) | Przyczyna                                      | Oczekiwany komunikat / Wynik          |
+| :------------------- | :--------------------------------------------- | :------------------------------------ |
+| `23505` (Unique)     | Próba rejestracji na zajęty e-mail.            | Błąd naruszenia klucza unikalnego.    |
+| `23503` (FK)         | Próba usunięcia filmu, który jest wypożyczony. | Błąd więzów klucza obcego.            |
+| `23514` (Check)      | Cena filmu jest mniejsza niż 0.                | Błąd naruszenia więzów `CHECK`.       |
+| `P0001` (Raise)      | Wyzwalacz z Etapu 2 zablokował akcję.          | Własny komunikat z `RAISE EXCEPTION`. |
 
-## Przykład struktury kodu (Python)
+## Przykład implementacji zapytań (SQL)
 
-```python
-import psycopg
-from contextlib import contextmanager
+```sql
+-- 1. Wyszukiwanie filmów
+SELECT tytul, cena
+FROM film
+WHERE dostepny = TRUE
+  AND tytul ILIKE '%Matrix%';
 
+-- 2. Proces wypożyczenia (Logika transakcyjna)
+BEGIN;
 
-# 1. Zarządzanie połączeniem
-@contextmanager
-def get_conn():
-    conn = psycopg.connect("dbname=vod user=postgres password=secret host=localhost")
-    try:
-        yield conn
-    finally:
-        conn.close()
+INSERT INTO wypozyczenie (uzytkownik_id, film_id, data_wypozyczenia)
+VALUES (1, 5, NOW());
 
+-- Dodatkowa logika (np. zmiana statusu filmu)
+UPDATE film SET dostepny = FALSE WHERE id = 5;
 
-# 2. Logika dostępu do danych (Repository)
-class MovieRepository:
-    def find_all(self, search_term=None):
-        with get_conn() as conn, conn.cursor() as cur:
-            sql = "SELECT tytul, cena FROM film WHERE dostepny = TRUE"
-            if search_term:
-                sql += " AND tytul ILIKE %s"
-                cur.execute(sql, (f"%{search_term}%",))
-            else:
-                cur.execute(sql)
-            return cur.fetchall()
-
-    def rent_movie(self, user_id: int, movie_id: int):
-        with get_conn() as conn:
-            # Użycie transakcji gwarantuje spójność
-            with conn.transaction():
-                with conn.cursor() as cur:
-                    cur.execute(
-                        """
-                        INSERT INTO wypozyczenie (uzytkownik_id, film_id, data_wypozyczenia)
-                        VALUES (%s, %s, NOW())
-                    """,
-                        (user_id, movie_id),
-                    )
+COMMIT;
 ```
 
 ## Wymagania techniczne (Checklist)
 
 - [ ] Czy przygotowałeś tabele z atrybutami dla każdej z 5 encji?
 - [ ] Czy przygotowałeś tabele z zawartością dla każdej z 5 encji?
-- [ ] Czy wszystkie zapytania `INSERT/UPDATE` są wykonywane wewnątrz **transakcji**?
-- [ ] Czy używasz **parametryzacji zapytań** (np. `%s` w psycopg) zamiast f-stringów?
-- [ ] Czy kod jest podzielony na czytelne funkcje/klasy?
+- [ ] Czy wszystkie zapytania `INSERT/UPDATE` zmieniające stan bazy są przemyślane pod kątem transakcji?
+- [ ] Czy używasz zapytań parametryzowanych w kontekście potencjalnej aplikacji (np. `?` lub `:param`)?
+- [ ] Czy skrypty są czytelnie skomentowane?
 - [ ] Czy po uruchomieniu skryptu `schema.sql` baza jest gotowa do pracy?
-- [ ] Czy skrypt `seed.sql` można uruchomić wielokrotnie bez błędów?
+- [ ] Czy skrypt `seed.sql` można uruchomić wielokrotnie bez błędów (np. użycie `TRUNCATE` lub `ON CONFLICT DO NOTHING`)?
