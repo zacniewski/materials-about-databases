@@ -382,8 +382,9 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-## UWAGI KOŃCOWE
+## Uwagi końcowe i organizacyjne
 
+- **Raportowanie postępów:** Po każdych dwóch godzinach pracy nad projektem należy sporządzić uaktualnienie do sprawozdania i wysłać je do prowadzącego (e-mail/platforma).
 - Projekt wykonujemy w oparciu o wytyczne z bieżącego pliku `Bazy danych - projekt.md` zmieniając jego nazwę na `Projekt-BD-NAZWISKO.md`.
 - Zamieniamy plik `Projekt-BD-NAZWISKO.md` na `Projekt-BD-NAZWISKO.pdf` (np. używając rozszerzenia Markdown -> PDF w IDE).
 - Wysyłamy plik `Projekt-BD-NAZWISKO.pdf` na platformę ILIAS w wyznaczonym terminie.
