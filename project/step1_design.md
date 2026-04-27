@@ -9,7 +9,7 @@ Celem tego etapu jest przekształcenie wymagań biznesowych na logiczny model ba
 Projektowanie bazy danych zazwyczaj przebiega w następujących krokach:
 
 1. **Analiza wymagań**: Zidentyfikowanie danych, które system musi przechowywać (np. "System musi przechowywać e-maile użytkowników").
-1. **Modelowanie koncepcyjne (ERD)**: Stworzenie diagramu encji i relacji (Entity-Relationship Diagram), określając powiązania między obiektami.
+1. **Modelowanie koncepcyjne (ERD)**: Stworzenie diagramu encji i relacji (Entity-Relationship Diagram), określając powiązania między obiektami. W PostgreSQL (poprzez pgAdmin 4) możesz wykorzystać wbudowane narzędzie **[ERD Tool](https://www.pgadmin.org/docs/pgadmin4/latest/erd_tool.html)**, które pozwala na graficzne projektowanie struktury bazy.
 1. **Modelowanie logiczne**: Mapowanie encji na tabele, określenie kluczy głównych (PK) i obcych (FK).
 1. **Normalizacja**: Sprawdzenie, czy struktura spełnia zasady postaci normalnych (zazwyczaj do 3NF).
 1. **Modelowanie fizyczne**: Dobór konkretnych typów danych (np. `VARCHAR(255)`, `NUMERIC(10,2)`) dla wybranego silnika bazy danych (PostgreSQL).
