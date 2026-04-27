@@ -27,6 +27,22 @@ Wymagane jest przygotowanie **minimum 3 funkcji** oraz **minimum 3 wyzwalaczy**.
 
 ## Mechanizm działania wyzwalacza (Trigger)
 
+Wyzwalacz (trigger) to procedura składowana, która jest automatycznie wywoływana przez silnik bazy danych w odpowiedzi na określone zdarzenie (np. `INSERT`, `UPDATE`, `DELETE`) na konkretnej tabeli lub widoku.
+
+### Rodzaje wyzwalaczy:
+
+- **BEFORE:** Wykonuje się przed właściwą operacją. Idealny do walidacji danych lub modyfikacji wartości `NEW`.
+- **AFTER:** Wykonuje się po operacji. Stosowany głównie do audytu, logowania zmian w tabelach pomocniczych lub kaskadowych aktualizacji.
+- **INSTEAD OF:** Zazwyczaj stosowany na widokach, aby umożliwić ich edycję.
+
+### Kluczowe zmienne w PL/pgSQL:
+
+- `NEW`: Rekord zawierający nowe dane (dostępny dla `INSERT` i `UPDATE`).
+- `OLD`: Rekord zawierający stare dane (dostępny dla `UPDATE` i `DELETE`).
+- `TG_OP`: Zmienna tekstowa zawierająca rodzaj operacji (`INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`).
+
+### Schemat działania:
+
 ```mermaid
 sequenceDiagram
     participant App as Aplikacja
@@ -52,9 +68,9 @@ sequenceDiagram
 
 ## Przykłady implementacji
 
-### 1. Wyzwalacz blokujący (PostgreSQL)
+### 1. Wyzwalacz walidacyjny (BEFORE INSERT)
 
-Funkcja sprawdzająca status płatności przed nowym wypożyczeniem:
+Zapobiega dodaniu wypożyczenia, jeśli użytkownik ma nieuregulowane płatności.
 
 ```sql
 -- Funkcja wyzwalająca
@@ -63,6 +79,7 @@ RETURNS TRIGGER AS $$
 DECLARE
     ma_zaleglosci BOOLEAN;
 BEGIN
+    -- Sprawdzenie czy istnieje jakakolwiek płatność ze statusem ZALEGLOSC
     SELECT EXISTS (
         SELECT 1 FROM PLATNOSC p
         WHERE p.uzytkownik_id = NEW.uzytkownik_id
@@ -70,21 +87,55 @@ BEGIN
     ) INTO ma_zaleglosci;
 
     IF ma_zaleglosci THEN
-        RAISE EXCEPTION 'Użytkownik posiada zaległości w płatnościach';
+        RAISE EXCEPTION 'Użytkownik posiada zaległości w płatnościach - operacja przerwana';
     END IF;
 
+    -- Dla wyzwalaczy BEFORE należy zwrócić NEW, aby kontynuować operację
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Wyzwalacz
+-- Utworzenie wyzwalacza
 CREATE TRIGGER trg_sprawdz_zaleglosci
 BEFORE INSERT ON WYPOZYCZENIE
 FOR EACH ROW
 EXECUTE FUNCTION sprawdz_zaleglosci();
 ```
 
-### 2. Funkcja walidująca (Regex)
+### 2. Wyzwalacz audytowy (AFTER UPDATE)
+
+Rejestruje każdą zmianę ceny filmu w specjalnej tabeli historii.
+
+```sql
+-- Tabela logów
+CREATE TABLE historia_cen (
+    id SERIAL PRIMARY KEY,
+    film_id INT,
+    stara_cena NUMERIC,
+    nowa_cena NUMERIC,
+    data_zmiany TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Funkcja logująca
+CREATE OR REPLACE FUNCTION loguj_zmiane_ceny()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.cena <> NEW.cena THEN
+        INSERT INTO historia_cen(film_id, stara_cena, nowa_cena)
+        VALUES (OLD.id, OLD.cena, NEW.cena);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Utworzenie wyzwalacza
+CREATE TRIGGER trg_log_cena
+AFTER UPDATE ON FILM
+FOR EACH ROW
+EXECUTE FUNCTION loguj_zmiane_ceny();
+```
+
+### 3. Funkcja walidująca (Regex)
 
 ```sql
 CREATE OR REPLACE FUNCTION waliduj_email(email TEXT)
