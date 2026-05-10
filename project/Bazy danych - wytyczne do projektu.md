@@ -389,5 +389,5 @@ ______________________________________________________________________
 - Zamieniamy plik `Projekt-BD-NAZWISKO.md` na `Projekt-BD-NAZWISKO.pdf` (np. używając rozszerzenia Markdown -> PDF w IDE).
 - Wysyłamy plik `Projekt-BD-NAZWISKO.pdf` na platformę ILIAS w wyznaczonym terminie.
 - Przykładowy projekt został przedstawiony w pliku [Exemplary_project_VOD.md](Exemplary_project_VOD.md).
-- Drugi i kolejne braki w raportowaniu postępów w projekcie skutkować będzie obniżeniem oceny końcowej o 0,5 stopnia.
+- Drugi i następne braki w raportowaniu postępów w projekcie skutkować będzie kolejnym obniżaniem oceny końcowej o 0,5 stopnia.
 - Niewysłanie projektu w wyznaczonym terminie jest równoznaczne z oceną 2 za projekt.
