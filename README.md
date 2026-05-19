@@ -4,23 +4,24 @@ Repozytorium zawiera materiały dla przedmiotu "Bazy danych", obejmujące 14 god
 
 ## Spis treści
 
-### [Laboratoria (14h)](./labs/)
+### [Laboratoria (15h)](./labs/)
 
 1. [Laboratorium 1: Podstawy SQL - Zapytania SELECT (Baza Rembud)](./labs/lab01_sql_basics_1.md) - 2h
 1. [Laboratorium 2: SQL - Podstawy kwerend i filtrowanie danych](./labs/lab02_sql_basics_2.md) - 2h
 1. [Laboratorium 3: SQL - Łączenie tabel i funkcje agregujące](./labs/lab03_joins_aggregation.md) - 2h
-1. [Laboratorium 4: SQL - Funkcje, operacje na zbiorach i wyrażenia regularne](./labs/lab05_functions_regex.md) - 2h
-1. [Laboratorium 5: Funkcje w SQL](./labs/lab06_functions.md) - 2h
-1. [Laboratorium 6: Grupowanie, Widoki i Podzapytania w SQL](./labs/lab07_grouping_subqueries.md) - 2h
-1. **Kolokwium podsumowujące (2h)** - Sprawdzian wiedzy teoretycznej i praktycznej.
+1. [Laboratorium 4: SQL - Powtórzenie materiału i wprowadzenie do normalizacji](./labs/lab04_tasks_for_recap.md) - 2h
+1. [Laboratorium 5: SQL - Funkcje, operacje na zbiorach i wyrażenia regularne](./labs/lab05_functions_regex.md) - 2h
+1. [Laboratorium 6: Funkcje w SQL](./labs/lab06_functions.md) - 2h
+1. [Laboratorium 7: Grupowanie, Widoki i Podzapytania w SQL](./labs/lab07_grouping_subqueries.md) - 2h
+1. **Kolokwium podsumowujące (1h)** - Sprawdzian wiedzy teoretycznej i praktycznej.
 
-### [Projekt (14h)](./project/)
+### [Projekt (15h)](./project/)
 
 1. [Wstęp do projektu i wymagania](project/Exemplary_project_VOD.md)
    - **Ważne:** Po każdych dwóch godzinach pracy należy wysłać uaktualnienie sprawozdania do prowadzącego.
 1. [Etap 1: Projektowanie relacyjnych baz danych](./project/step1_design.md) - 4h (zawiera teorię normalizacji)
 1. [Etap 2: Proceduralne rozszerzenia w projekcie](./project/step2_procedural.md) - 2h
-1. [Etap 3: Implementacja i testowanie zapytań SQL](./project/step3_implementation.md) - 10h
+1. [Etap 3: Implementacja i testowanie zapytań SQL](./project/step3_implementation.md) - 8h
 1. [Etap 4: Analiza danych i raportowanie](./project/step4_analysis.md) - 1h
 
 ## Zasady zaliczenia i punktacja
