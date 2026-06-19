@@ -149,6 +149,9 @@ INSERT INTO Studenci (
 INSERT INTO Studenci (
     Imie, Nazwisko, Nr_indeksu, Data_urodzenia, Id_kierunku, Rok_studiow
 ) VALUES ('Natalia', 'Pawlak', 123475, '2000-06-25', 7, 4);
+INSERT INTO Studenci (
+    Imie, Nazwisko, Nr_indeksu, Data_urodzenia, Id_kierunku, Rok_studiow
+) VALUES ('Damian', 'Borkowski', 123476, '2003-09-14', 4, 1);
 
 -- Tabela Przedmioty
 CREATE TABLE Przedmioty (

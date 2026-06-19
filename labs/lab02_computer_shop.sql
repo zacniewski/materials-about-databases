@@ -44,7 +44,7 @@ INSERT INTO Producenci (Nazwa, Kraj) VALUES
 ('LG', 'Korea Południowa'), ('Logitech', 'Szwajcaria'), ('Razer', 'USA'),
 ('Corsair', 'USA'), ('Seagate', 'USA'), ('Western Digital', 'USA'),
 ('Kingston', 'USA'), ('HP', 'USA'), ('Dell', 'USA'), ('Lenovo', 'Chiny'),
-('Acer', 'Tajwan'), ('TP-Link', 'Chiny'), ('Brother', 'Japonia');
+('Acer', 'Tajwan'), ('Xiaomi', 'Chiny'), ('Brother', 'Japonia');
 
 -- Dane dla Produkty (20 rekordów)
 INSERT INTO Produkty (
@@ -68,7 +68,7 @@ INSERT INTO Produkty (
 ('UltraSharp 27"', 2800.00, 10, 'Monitory', 16),
 ('Legion 5 15"', 5500.00, 4, 'Laptopy', 17),
 ('Nitro 5 17"', 4800.00, 9, 'Laptopy', 18),
-('Archer AX55', 400.00, 22, 'Sieci', 19),
+('AX55R', 400.00, 22, 'Sieci', 19),
 ('MFC-L2712DW', 950.00, 11, 'Drukarki', 20);
 
 -- Dane dla Klienci (20 rekordów)

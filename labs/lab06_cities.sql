@@ -27,7 +27,7 @@ CREATE TABLE miasta (
     id_kraju INTEGER REFERENCES kraje (id_kraju),
     liczba_mieszkancow INTEGER,
     czy_stolica BOOLEAN DEFAULT FALSE,
-    data_założenia DATE
+    data_zalozenia DATE
 );
 
 -- Wstawianie 20 rekordów do tabeli kontynenty
@@ -82,7 +82,7 @@ INSERT INTO kraje (
 
 -- Wstawianie 20 rekordów do tabeli miasta
 INSERT INTO miasta (
-    nazwa_miasta, id_kraju, liczba_mieszkancow, czy_stolica, data_założenia
+    nazwa_miasta, id_kraju, liczba_mieszkancow, czy_stolica, data_zalozenia
 ) VALUES
 ('Warszawa', 1, 1790000, TRUE, '1300-01-01'),
 ('Kraków', 1, 780000, FALSE, '1257-06-05'),
